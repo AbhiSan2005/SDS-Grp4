@@ -1,22 +1,41 @@
 import React from 'react'
 import { BrowserRouter, Routes ,Route} from 'react-router-dom'
-import AdminDashboard from './pages/AdminDashboard/AdminDashboard.jsx'
-import Members from './pages/AdminDashboard/Members.jsx'
-import Projects from './pages/AdminDashboard/Projects.jsx'
-import Events from './pages/AdminDashboard/Events.jsx'
-import Reports from './pages/AdminDashboard/Reports.jsx'
-import Files from './pages/AdminDashboard/Files.jsx'
+import AdminDashboard from './pages/admin/Dashboard.jsx'
+import Members_Admin from './pages/admin/members/ManageMembers.jsx'
+import Projects_Admin from './pages/admin/projects/ManageProjects.jsx'
+import Events_Admin from './pages/admin/events/ManageEvents.jsx'
+import Reports_Admin from './pages/admin/reports/Reports.jsx'
+import Files_Admin from './pages/admin/files/FileManager.jsx'
+import HomePage from './pages/public/Home.jsx'
+import About_Us from './pages/public/AboutUs.jsx'
+import Events from './pages/public/Events.jsx'
+import Projects from './pages/public/Projects.jsx'
+import Members from './pages/public/Members.jsx'
+
+import FacultyDashboard from './pages/faculty/Dashboard.jsx'
+import Reports_Faculty from './pages/faculty/reports/ViewReports.jsx'
 
 const App = () => {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/admin-dashboard" element={<AdminDashboard />} />
-        <Route path="/admin-dashboard/members" element={<Members />} />
-        <Route path="/admin-dashboard/projects" element={<Projects />} />
-        <Route path="/admin-dashboard/events" element={<Events />} />
-        <Route path="/admin-dashboard/reports" element={<Reports />} />
-        <Route path="/admin-dashboard/files" element={<Files />} />
+        <Route path="/home" element = {<HomePage/>} />
+        <Route path="/about" element = {<About_Us/>} />
+        <Route path="/events" element = {<Events/>} />
+        <Route path="/projects" element = {<Projects/>} />
+        <Route path="/members" element = {<Members/>} />
+
+
+        <Route path="/admin" element={<AdminDashboard />} />
+        <Route path="/admin/members" element={<Members_Admin />} />
+        <Route path="/admin/projects" element={<Projects_Admin />} />
+        <Route path="/admin/events" element={<Events_Admin />} />
+        <Route path="/admin/reports" element={<Reports_Admin />} />
+        <Route path="/admin/files" element={<Files_Admin />} />
+
+        <Route path="/faculty" element = {<FacultyDashboard/>} />
+        <Route path="/faculty/reports" element = {<Reports_Faculty/>} />
+
       </Routes>
     </BrowserRouter>
   )

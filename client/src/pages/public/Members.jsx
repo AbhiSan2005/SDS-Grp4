@@ -3,8 +3,7 @@ import React from 'react'
 const Members = () => {
   return (
     <div>
-      <h2>Members Management</h2>
-      <p>Here you can manage all members of the club.</p>
+      <h1>Members</h1>  
     </div>
   )
 }

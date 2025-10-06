@@ -12,21 +12,21 @@ import {
   ChevronsLeft,
 } from 'lucide-react';
 
+import Navbar from '../../components/Navbar.jsx';
 const AdminDashboard = () => {
   const [isCollapsed, setIsCollapsed] = useState(false);
 
   const navItems = [
-    { name: 'Dashboard', icon: <LayoutDashboard size={20} />, href: '#' },
-    { name: 'Members Management', icon: <Users size={20} />, href: '/admin-dashboard/members' },
-    { name: 'Projects Management', icon: <FolderKanban size={20} />, href: '/admin-dashboard/projects' },
-    { name: 'Events Management', icon: <CalendarDays size={20} />, href: '/admin-dashboard/events' },
-    { name: 'Reports Section', icon: <FileText size={20} />, href: '/admin-dashboard/reports' },
-    { name: 'File Manager', icon: <Folder size={20} />, href: '/admin-dashboard/files' },
+    { name: 'Dashboard', icon: <LayoutDashboard size={20} />, href: '/admin' },
+    { name: 'Members Management', icon: <Users size={20} />, href: '/admin/members' },
+    { name: 'Projects Management', icon: <FolderKanban size={20} />, href: '/admin/projects' },
+    { name: 'Events Management', icon: <CalendarDays size={20} />, href: '/admin/events' },
+    { name: 'Reports Section', icon: <FileText size={20} />, href: '/admin/reports' },
+    { name: 'File Manager', icon: <Folder size={20} />, href: '/admin/files' },
   ];
 
   return (
     <div className="flex h-screen bg-gray-100 font-sans">
-
       {/* Collapsible Sidebar */}
       <aside
         className={`flex flex-col bg-white border-r border-gray-200 transition-all duration-300 ease-in-out ${
@@ -118,47 +118,7 @@ const AdminDashboard = () => {
           </div>
         </header>
 
-        {/* Scrollable Content Area */}
 
-        <main className="flex-1 p-6 overflow-y-auto">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            <div className="bg-white p-6 rounded-lg shadow-md transition-shadow hover:shadow-lg">
-              <h3 className="text-lg font-semibold text-gray-800 mb-2">Members Management</h3>
-              <p className="text-gray-600 text-sm">Add, edit, or delete member profiles.</p>
-              <button className="mt-4 px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600">
-                Manage Members
-              </button>
-            </div>
-            <div className="bg-white p-6 rounded-lg shadow-md transition-shadow hover:shadow-lg">
-              <h3 className="text-lg font-semibold text-gray-800 mb-2">Projects Management</h3>
-              <p className="text-gray-600 text-sm">Manage project details and visibility.</p>
-              <button className="mt-4 px-4 py-2 bg-green-500 text-white rounded-md hover:bg-green-600">
-                Manage Projects
-              </button>
-            </div>
-            <div className="bg-white p-6 rounded-lg shadow-md transition-shadow hover:shadow-lg">
-              <h3 className="text-lg font-semibold text-gray-800 mb-2">Events Management</h3>
-              <p className="text-gray-600 text-sm">Create, edit, or remove club events.</p>
-              <button className="mt-4 px-4 py-2 bg-yellow-500 text-white rounded-md hover:bg-yellow-600">
-                Manage Events
-              </button>
-            </div>
-            <div className="bg-white p-6 rounded-lg shadow-md transition-shadow hover:shadow-lg">
-              <h3 className="text-lg font-semibold text-gray-800 mb-2">Reports Section</h3>
-              <p className="text-gray-600 text-sm">Upload or generate project reports.</p>
-              <button className="mt-4 px-4 py-2 bg-purple-500 text-white rounded-md hover:bg-purple-600">
-                View Reports
-              </button>
-            </div>
-            <div className="bg-white p-6 rounded-lg shadow-md transition-shadow hover:shadow-lg">
-              <h3 className="text-lg font-semibold text-gray-800 mb-2">File Manager</h3>
-              <p className="text-gray-600 text-sm">Manage images and documents for the website.</p>
-              <button className="mt-4 px-4 py-2 bg-indigo-500 text-white rounded-md hover:bg-indigo-600">
-                Open Manager
-              </button>
-            </div>
-          </div>
-        </main>
       </div>
     </div>
   );
