@@ -7,10 +7,11 @@ import Events_Admin from './pages/admin/events/ManageEvents.jsx'
 import Reports_Admin from './pages/admin/reports/Reports.jsx'
 import Files_Admin from './pages/admin/files/FileManager.jsx'
 import HomePage from './pages/public/Home.jsx'
-import About_Us from './pages/public/AboutUs.jsx'
+import About_Us from './pages/public/AboutUS.jsx'
 import Events from './pages/public/Events.jsx'
 import Projects from './pages/public/Projects.jsx'
 import Members from './pages/public/Members.jsx'
+import AddMemberModal from './pages/admin/members/AddNewMember.jsx'
 
 import FacultyDashboard from './pages/faculty/Dashboard.jsx'
 import Reports_Faculty from './pages/faculty/reports/ViewReports.jsx'
@@ -28,6 +29,7 @@ const App = () => {
 
         <Route path="/admin" element={<AdminDashboard />} />
         <Route path="/admin/members" element={<Members_Admin />} />
+        <Route path="/admin/add-member" element={<AddMemberModal />} />
         <Route path="/admin/projects" element={<Projects_Admin />} />
         <Route path="/admin/events" element={<Events_Admin />} />
         <Route path="/admin/reports" element={<Reports_Admin />} />

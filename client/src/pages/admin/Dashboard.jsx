@@ -12,7 +12,6 @@ import {
   ChevronsLeft,
 } from 'lucide-react';
 
-import Navbar from '../../components/Navbar.jsx';
 const AdminDashboard = () => {
   const [isCollapsed, setIsCollapsed] = useState(false);
 
