@@ -15,6 +15,7 @@ import Members from './pages/public/Members.jsx'
 import FacultyDashboard from './pages/faculty/Dashboard.jsx'
 import Reports_Faculty from './pages/faculty/reports/ViewReports.jsx'
 
+// below import is for faculty login
 import FacultyLogin from './pages/faculty/FacultyLogin/FacultyLoginPage.jsx';
 
 
@@ -38,6 +39,8 @@ const App = () => {
 
         <Route path="/faculty" element = {<FacultyDashboard/>} />
         <Route path="/faculty/reports" element = {<Reports_Faculty/>} />
+
+        {/* below route added for faculty login page */}
         <Route path="/faculty/login" element={<FacultyLogin />} />
 
 
