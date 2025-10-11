@@ -10,8 +10,9 @@ import HomePage from './pages/public/Home.jsx'
 import About_Us from './pages/public/AboutUS.jsx'
 import Events from './pages/public/Events.jsx'
 import Projects from './pages/public/Projects.jsx'
+import AddProject from './pages/admin/projects/AddProject.jsx'
 import Members from './pages/public/Members.jsx'
-import AddMemberModal from './pages/admin/members/AddNewMember.jsx'
+import AddMember from './pages/admin/members/AddNewMember.jsx'
 
 import FacultyDashboard from './pages/faculty/Dashboard.jsx'
 import Reports_Faculty from './pages/faculty/reports/ViewReports.jsx'
@@ -29,8 +30,9 @@ const App = () => {
 
         <Route path="/admin" element={<AdminDashboard />} />
         <Route path="/admin/members" element={<Members_Admin />} />
-        <Route path="/admin/add-member" element={<AddMemberModal />} />
+        <Route path="/admin/add-member" element={<AddMember />} />
         <Route path="/admin/projects" element={<Projects_Admin />} />
+        <Route path="/admin/add-project" element={<AddProject />} />
         <Route path="/admin/events" element={<Events_Admin />} />
         <Route path="/admin/reports" element={<Reports_Admin />} />
         <Route path="/admin/files" element={<Files_Admin />} />
