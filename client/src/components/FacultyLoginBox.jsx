@@ -1,15 +1,18 @@
 import React, { useState } from "react";
+import {useNavigate} from "react-router-dom";
+
 
 const FacultyLoginBox = ({onLogin}) => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
+    const navigate = useNavigate();
 
 const handleSubmit = (e) => {
     e.preventDefault();
     if(onLogin){
         onLogin({username, password});
     }
-
+    navigate('/faculty/dashboard', {state: {username}});
 };
 return(
     <form onSubmit={handleSubmit} className="bg-white p-8 rounded-lg shadow-lg w-full max-w-sm mx-auto">

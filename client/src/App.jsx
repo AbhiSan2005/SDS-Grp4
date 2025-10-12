@@ -36,8 +36,9 @@ const App = () => {
         <Route path="/admin/events" element={<Events_Admin />} />
         <Route path="/admin/reports" element={<Reports_Admin />} />
         <Route path="/admin/files" element={<Files_Admin />} />
-
-        <Route path="/faculty" element = {<FacultyDashboard/>} />
+        
+        {/* //below path earlier used to be only /faculty */}
+        <Route path="/faculty/dashboard" element = {<FacultyDashboard/>} />
         <Route path="/faculty/reports" element = {<Reports_Faculty/>} />
 
         {/* below route added for faculty login page */}
