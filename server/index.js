@@ -1,14 +1,15 @@
-const express = require('express');
-const cors = require('cors');
-const dotenv = require('dotenv');
-const authRoutes = require('./src/routes/auth.routes.js');
-const userRoutes = require('./src/routes/user.routes.js');
-const projectRoutes = require('./src/routes/project.routes.js');
-const eventRoutes = require('./src/routes/event.routes.js');
-const reportRoutes = require('./src/routes/report.routes.js');
-const adminRoutes = require('./src/routes/admin.routes.js');
-const facultyRoutes = require('./src/routes/faculty.routes.js');
-const connectDB = require('./src/config/db.js');
+import express from 'express';
+import cors from 'cors';
+import dotenv from 'dotenv';
+import authRoutes from './src/routes/auth.routes.js';
+import userRoutes from './src/routes/user.routes.js';
+import memberRoutes from './src/routes/member.routes.js';
+import projectRoutes from './src/routes/project.routes.js';
+import eventRoutes from './src/routes/event.routes.js';
+import reportRoutes from './src/routes/report.routes.js';
+import adminRoutes from './src/routes/admin.routes.js';
+import facultyRoutes from './src/routes/faculty.routes.js';
+import connectDB from './src/config/db.js';
 
 dotenv.config();
 

@@ -1,4 +1,4 @@
-const restrictTo = (...roles) => {
+export const restrictTo = (...roles) => {
   return (req, res, next) => {
     // Checked if user exists
     if (!req.user) {
@@ -20,7 +20,7 @@ const restrictTo = (...roles) => {
   };
 };
 
-const adminOnly = (req, res, next) => {
+export const adminOnly = (req, res, next) => {
   if (!req.user || req.user.role !== 'admin') {
     return res.status(403).json({
       success: false,
@@ -30,7 +30,7 @@ const adminOnly = (req, res, next) => {
   next();
 };
 
-const facultyOnly = (req, res, next) => {
+export const facultyOnly = (req, res, next) => {
   if (!req.user || req.user.role !== 'faculty') {
     return res.status(403).json({
       success: false,
@@ -38,10 +38,4 @@ const facultyOnly = (req, res, next) => {
     });
   }
   next();
-};
-
-module.exports = {
-  restrictTo,
-  adminOnly,
-  facultyOnly
 };
