@@ -14,12 +14,14 @@ const AdminLayout = ({ activePage, pageTitle, children }) => {
       />
 
       <div className="flex-1 flex flex-col overflow-hidden">
-        <header className="flex justify-between items-center p-4 bg-white border-b border-gray-200">
-          <h2 className="text-xl font-semibold text-gray-700">{pageTitle}</h2>
+        <header 
+          className="flex justify-between items-center p-4 bg-slate-800 border-b border-slate-700"
+        >
+          <h2 className="text-xl font-semibold text-slate-200">{pageTitle}</h2>
           <div className="flex items-center">
-            <span className="text-gray-600 mr-4">Welcome, Admin!</span>
-            <button className="p-2 rounded-full hover:bg-gray-200">
-              <UserCircle size={24} className="text-gray-600" />
+            <span className="text-slate-400 mr-4">Welcome, Admin!</span>
+            <button className="p-2 rounded-full text-slate-400 hover:bg-slate-700 hover:text-white">
+              <UserCircle size={24} />
             </button>
           </div>
         </header>

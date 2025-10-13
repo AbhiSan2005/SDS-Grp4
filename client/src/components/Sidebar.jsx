@@ -22,31 +22,40 @@ const Sidebar = ({ isCollapsed, setIsCollapsed, activePage }) => {
 
   return (
     <aside
-      className={`flex flex-col bg-white border-r border-gray-200 transition-all duration-300 ease-in-out ${
+      className={`flex flex-col bg-slate-800 border-r border-slate-700 transition-all duration-300 ease-in-out ${
         isCollapsed ? 'w-20' : 'w-64'
       }`}
     >
-      <div className="p-4 border-b flex items-center justify-between">
-        <h1 className={`text-2xl font-bold text-gray-800 transition-opacity duration-200 ${isCollapsed ? 'opacity-0 hidden' : 'opacity-100'}`}>
+      <div className="h-20 p-4 border-b border-slate-700 flex items-center justify-between">
+        <h1 className={`text-2xl font-bold text-white transition-opacity duration-200 ${isCollapsed ? 'opacity-0 hidden' : 'opacity-100'}`}>
           SDS Admin
         </h1>
-        <button onClick={() => setIsCollapsed(!isCollapsed)} className="p-2 rounded-md hover:bg-gray-200">
+        <button
+          onClick={() => setIsCollapsed(!isCollapsed)}
+          className="p-2 rounded-md text-slate-400 hover:bg-slate-700 hover:text-white"
+        >
           <ChevronsLeft className={`transition-transform duration-300 ${isCollapsed ? 'rotate-180' : ''}`} />
         </button>
       </div>
-      <nav className="flex-grow p-4">
+
+      <nav className="flex-grow p-2 space-y-1"> 
         <ul>
           {navItems.map((item) => (
-            <li key={item.name} className="mb-2">
+            <li key={item.name}>
               <a
                 href={item.href}
-                className={`flex items-center p-2 text-gray-600 rounded-md hover:bg-gray-200 transition-colors ${
-                  activePage === item.name ? 'bg-blue-100 font-semibold text-blue-800' : ''
-                } ${isCollapsed ? 'justify-center' : ''}`}
+                className={`flex items-center p-3 rounded-md transition-colors duration-200
+                  ${
+                    activePage === item.name
+                      ? 'bg-blue-600 font-semibold text-white shadow-lg'
+                      : 'text-slate-400 hover:bg-slate-700 hover:text-white'
+                  }
+                  ${isCollapsed ? 'justify-center' : ''}`
+                }
                 title={item.name}
               >
-                <span className={`${activePage === item.name ? 'text-blue-800' : 'text-gray-500'}`}>{item.icon}</span>
-                <span className={`ml-3 transition-opacity duration-200 ${isCollapsed ? 'opacity-0 hidden' : 'opacity-100'}`}>
+                <span>{item.icon}</span>
+                <span className={`ml-4 transition-all duration-200 ${isCollapsed ? 'opacity-0 hidden w-0' : 'opacity-100 w-auto'}`}>
                   {item.name}
                 </span>
               </a>
@@ -54,10 +63,15 @@ const Sidebar = ({ isCollapsed, setIsCollapsed, activePage }) => {
           ))}
         </ul>
       </nav>
-      <div className="p-4 border-t border-gray-200">
-        <a href="#" className={`flex items-center p-2 text-red-500 rounded-md hover:bg-red-100 transition-colors ${isCollapsed ? 'justify-center' : ''}`} title="Logout">
+
+      <div className="p-2 border-t border-slate-700">
+        <a 
+            href="#" 
+            className={`flex items-center p-3 rounded-md transition-colors duration-200 text-red-500 hover:bg-red-500/20 hover:text-red-400 ${isCollapsed ? 'justify-center' : ''}`} 
+            title="Logout"
+        >
           <LogOut size={20} />
-          <span className={`ml-3 font-medium transition-opacity duration-200 ${isCollapsed ? 'opacity-0 hidden' : 'opacity-100'}`}>
+          <span className={`ml-4 font-medium transition-all duration-200 ${isCollapsed ? 'opacity-0 hidden w-0' : 'opacity-100 w-auto'}`}>
             Logout
           </span>
         </a>

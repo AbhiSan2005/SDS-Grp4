@@ -1,44 +1,47 @@
-const mongoose = require('mongoose');
+import mongoose from "mongoose";
 
-const eventSchema = new mongoose.Schema({
-  title: {
-    type: String,
-    required: [true, 'Event title is required'],
-    trim: true
+const eventSchema = new mongoose.Schema(
+  {
+    title: {
+      type: String,
+      required: true,
+      trim: true
+    },
+    description: {
+      type: String,
+      required: true
+    },
+    agenda: {
+      type: String
+    },
+    startDate: {
+      type: Date,
+      required: true
+    },
+    endDate: {
+      type: Date,
+      required: true
+    },
+    location: {
+      type: String,
+      required: true
+    },
+    organizer: {
+      type: String,
+      required: true
+    },
+    status: {
+      type: String,
+      required: true,
+      enum: ["Upcoming", "Ongoing", "Completed", "Cancelled"],
+      default: "Upcoming",
+    },
+    imageUrl: { type: String }, // For the main event banner
+    gallery: { type: [String] }, // For multiple gallery images
   },
-  description: {
-    type: String,
-    required: [true, 'Event description is required']
-  },
-  eventDate: {
-    type: Date,
-    required: [true, 'Event date is required']
-  },
-  location: {
-    type: String,
-    trim: true
-  },
-  status: {
-    type: String,
-    enum: ['Upcoming', 'Completed', 'Ongoing'],
-    default: 'Upcoming'
-  },
-  maxParticipants: {
-    type: Number,
-    min: 0
-  },
-  registrationDeadline: {
-    type: Date
-  },
-  featuredImage: {
-    type: String,
-    default: '' //Later
-  },
-  //Might add something for gallery or something
-}, {
-  timestamps: true
-});
+  { timestamps: true }
+);
 
-eventSchema.index({ eventDate: 1, status: 1 });
+const Event = mongoose.model("Event", eventSchema);
 
-module.exports = mongoose.model('Event', eventSchema);
+export default Event;
