@@ -13,19 +13,6 @@ import {
 } from "lucide-react";
 import toast, { Toaster } from "react-hot-toast";
 
-const Avatar = ({ name }) => {
-  const initials = name
-    .split(" ")
-    .map((n) => n[0])
-    .join("")
-    .substring(0, 2);
-  return (
-    <div className="h-10 w-10 flex-shrink-0 flex items-center justify-center rounded-full bg-blue-500 text-white font-semibold text-sm">
-      {initials}
-    </div>
-  );
-};
-
 const getRoleBadge = (role) => {
   const styles = {
     "Faculty Advisor": "bg-indigo-100 text-indigo-800",
@@ -49,7 +36,7 @@ const MemberSkeleton = () => (
 );
 
 const MemberManagementDashboard = () => {
-  // Original state
+
   const [members, setMembers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -70,7 +57,7 @@ const MemberManagementDashboard = () => {
         const response = await axios.get(
           `${import.meta.env.VITE_API_URL}/api/members`
         );
-
+        
         setMembers(response.data);
       } catch (err) {
         console.error("Failed to fetch members: ", err);
@@ -84,7 +71,6 @@ const MemberManagementDashboard = () => {
     fetchMembers();
   }, []);
 
-  // --- NEW: Effect to close menu when clicking outside ---
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (
@@ -99,8 +85,9 @@ const MemberManagementDashboard = () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, [filterMenuRef]);
+  
+// This is the logic for memoized filtering and sorting
 
-  // Memoized filtering and sorting logic
   const filteredAndSortedMembers = useMemo(() => {
     const roleOrder = { "Faculty Advisor": 1, "Admin": 2, "Core Member": 3, "Member": 4 };
     return members
@@ -122,21 +109,15 @@ const MemberManagementDashboard = () => {
   // Calculate active dropdown filters for the badge
   const activeDropdownFilterCount = [filterRole, filterPortfolio, filterBatch].filter(Boolean).length;
 
-  const activeFilterCount = [
-    searchTerm,
-    filterRole,
-    filterPortfolio,
-    filterBatch,
-  ].filter(Boolean).length;
 
   const handleClearFilters = () => {
     setSearchTerm("");
     setFilterRole("");
     setFilterPortfolio("");
     setFilterBatch("");
-    setIsFilterMenuOpen(false); // Optionally close menu on clear
+    setIsFilterMenuOpen(false); 
   };
-  // Modal and Delete handlers (no changes needed)
+
   const handleOpenModal = (member) => {
     setMemberToDelete(member);
     setIsModalOpen(true);
@@ -145,7 +126,7 @@ const MemberManagementDashboard = () => {
     setMemberToDelete(null);
     setIsModalOpen(false);
   };
-  const handleConfirmDelete = async () => {
+  const handleConfirmDelete = async () => { 
     if (memberToDelete) {
       const promise = axios.delete(
         `${import.meta.env.VITE_API_URL}/api/members/${memberToDelete._id}`
@@ -170,26 +151,24 @@ const MemberManagementDashboard = () => {
 
   return (
     <AdminLayout activePage="Members Management" pageTitle="Member Management">
-      <Toaster position="top-right" />
+      <Toaster position="top-center" />
 
       <div className="flex flex-wrap justify-between items-center gap-4 mb-6">
         <h3 className="text-2xl font-semibold text-gray-800">Club Members</h3>
         
-        {/* --- Right-side controls: Search, Filter, Add --- */}
+        {/* Search and filter button */}        
         <div className="flex items-center gap-2">
-          {/* --- SEARCH BAR (NOW OUTSIDE) --- */}
           <div className="relative">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size={20} />
+            <Search className="absolute left-3 top-3 text-gray-400" size={20} />
             <input
               type="text"
               placeholder="Search..."
               value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-              className="w-48 pl-10 pr-4 py-2 bg-white text-gray-700 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:outline-none"
+              onChange = {(e) => setSearchTerm(e.target.value)}
+              className="w-50 pl-10 pr-4 py-2 bg-white text-gray-700 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:outline-none"
             />
           </div>
 
-          {/* --- FILTER BUTTON & DROPDOWN --- */}
           <div className="relative" ref={filterMenuRef}>
             <button
               onClick={() => setIsFilterMenuOpen(!isFilterMenuOpen)}
@@ -197,6 +176,7 @@ const MemberManagementDashboard = () => {
             >
               <Filter size={16} />
               <span>Filters</span>
+              {/* Show badge only if there are active dropdown filters */}
               {activeDropdownFilterCount > 0 && (
                 <span className="absolute -top-2 -right-2 flex h-5 w-5 items-center justify-center rounded-full bg-blue-500 text-white text-xs">
                   {activeDropdownFilterCount}
@@ -204,13 +184,12 @@ const MemberManagementDashboard = () => {
               )}
             </button>
             
-            {/* --- Filter Dropdown Menu (without search) --- */}
             {isFilterMenuOpen && (
               <div className="absolute right-0 mt-2 w-64 bg-white border border-gray-200 rounded-lg shadow-xl z-10 p-4 space-y-4">
                 <h4 className="font-semibold text-gray-800">Filter by</h4>
                 <select onChange={(e) => setFilterRole(e.target.value)} value={filterRole} className="w-full bg-white text-gray-700 border border-gray-300 rounded-md p-2 focus:ring-2 focus:ring-blue-500 focus:outline-none">
                   <option value="">All Roles</option>
-                  {uniqueRoles.map(role => <option key={role} value={role}>{role}</option>)}
+                  {uniqueRoles.map(r => <option key={r} value={r}>{r}</option>)}
                 </select>
                 <select onChange={(e) => setFilterPortfolio(e.target.value)} value={filterPortfolio} className="w-full bg-white text-gray-700 border border-gray-300 rounded-md p-2 focus:ring-2 focus:ring-blue-500 focus:outline-none">
                   <option value="">All Portfolios</option>
@@ -223,7 +202,7 @@ const MemberManagementDashboard = () => {
                 <div className="border-t pt-4">
                   <button
                     onClick={handleClearFilters}
-                    className="w-full inline-flex justify-center items-center gap-2 px-4 py-2 bg-gray-600 text-white rounded-md hover:bg-gray-700 transition-colors text-sm"
+                    className="w-full inline-flex justify-center items-center gap-2 px-4 py-2 bg-gray-600 text-white rounded-md hover:bg-gray-700 transition  -colors text-sm"
                   >
                     <X size={16} />
                     Clear All Filters
@@ -233,7 +212,6 @@ const MemberManagementDashboard = () => {
             )}
           </div>
           
-          {/* --- ADD MEMBER BUTTON --- */}
           <Link to="/admin/add-member" className="inline-flex items-center gap-2 px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition-all duration-200 shadow-sm hover:shadow-md">
             <UserPlus size={18} />
             <span className="hidden sm:inline">Add Member</span>
@@ -246,7 +224,6 @@ const MemberManagementDashboard = () => {
 
         {loading ? (
           <div>
-            <MemberSkeleton />
             <MemberSkeleton />
             <MemberSkeleton />
           </div>
@@ -273,7 +250,7 @@ const MemberManagementDashboard = () => {
                 </tr>
               </thead>
               <tbody>
-                {/* --- UPDATE: Map over the new filtered and sorted list --- */}
+                {/* This maps over filtered and sorted members */}
                 {filteredAndSortedMembers.length > 0 ? (
                   filteredAndSortedMembers.map((member) => (
                     <tr
@@ -282,13 +259,13 @@ const MemberManagementDashboard = () => {
                     >
                       <td className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
                         <div className="flex items-center gap-3">
-                          <Avatar name={member.name} />
+                          <img src={member.photo || 'https://via.placeholder.com/40'} alt="" className="w-10 h-10 rounded-full" />
                           <span>{member.name}</span>
                         </div>
                       </td>
                       <td className="px-6 py-4">
                         <span
-                          className={`px-2 py-1 text-xs font-medium rounded-full ${getRoleBadge(
+                          className={`px-2 py-1 text-xs font-medium rounded-full ${getRoleBadge(  
                             member.role
                           )}`}
                         >
@@ -300,7 +277,7 @@ const MemberManagementDashboard = () => {
                       <td className="px-6 py-4 text-right">
                         <div className="flex items-center justify-end gap-4">
                           <Link
-                            to={`/admin/edit-member/${member._id}`}
+                            to={`/admin/members/edit/${member._id}`}
                             title="Edit Member"
                             className="text-blue-600 hover:text-blue-800 transition-colors"
                           >

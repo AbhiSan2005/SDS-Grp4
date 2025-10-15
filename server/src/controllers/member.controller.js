@@ -3,7 +3,7 @@ import Member from "../models/member.model.js";
 export const getMembers = async (req, res) => {
   try {
     const members = await Member.find().select(
-      "name role portfolio batch contactNumber email"
+      "name role portfolio batch contactNumber email photo"
     );
     res.status(200).json(members);
   } catch (error) {
@@ -20,7 +20,18 @@ export const createMember = async (req, res) => {
     res.status(400).json({ message: error.message });
   }
 };
-
+export const getMemberbyId = async(req,res) =>{
+  try{
+    const {id} = req.params;
+    const member = await Member.findById(id);
+    if(!member){
+      return res.status(404).json({message: "Member not found"});
+    } 
+    res.status(200).json(member);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+}
 export const updateMember = async (req, res) => {
   try {
     const { id } = req.params;

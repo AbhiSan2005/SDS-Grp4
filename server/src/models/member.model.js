@@ -13,15 +13,19 @@ const memberSchema = new mongoose.Schema({
     role: {
         type: String,
         required: true,
-        enum: ['Admin', 'Head', 'Member'] // Example roles
+        enum: ['Faculty Advisor','Admin', 'Core Member', 'Member'] 
     },
     portfolio: {
         type: String,
         required: true,
-        enum: ['Events & Docs', 'Technical', 'Marketing', 'Design'] // Example portfolios
+        enum: ['Events & Docs', 'Technical', 'Marketing', 'Design'] 
     },
     batch: { type: Number, required: true },
-    branch: { type: String, required: true },
+    branch: { 
+        type: String, 
+        required: true,
+        enum: ['Computer Science and Engineering', 'Electronics and Telecommunication Engineering', 'Electrical Engineering', 'Mechanical Engineering', 'Civil Engineering', 'Instrumentation and Control Engineering', 'Manufacturing Engineering', 'Metallurgy and Material Engineering', 'Planning'],
+    },
     joinedDate: { type: Date, required: true, default: Date.now },
     expertise: { type: [String] }, 
     location: { type: String, required: true },

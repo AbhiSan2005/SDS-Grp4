@@ -11,7 +11,7 @@ const AddMemberPage = () => {
     role: 'Member', 
     portfolio: 'Technical',
     batch: new Date().getFullYear() + 4,
-    branch: '',
+    branch: 'Computer Science and Engineering',
     joinedDate: new Date().toISOString().split('T')[0],
     expertise: '',
     location: '',
@@ -81,15 +81,16 @@ const AddMemberPage = () => {
 
             <div>
               <label htmlFor="email" className="block text-sm font-medium text-gray-600">Email Address</label>
-              <input type="email" name="email" id="email" value={formData.email} onChange={handleChange} required className="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"/>
+              <input type="email" name="email" id="email" value={formData.email} onChange={handleChange} placeholder='Enter the college email' required className="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"/>
             </div>
 
             <div>
               <label htmlFor="role" className="block text-sm font-medium text-gray-600">Role</label>
               <select name="role" id="role" value={formData.role} onChange={handleChange} required className="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500">
                 <option>Member</option>
-                <option>Head</option>
+                <option>Core Member</option>
                 <option>Admin</option>
+                <option>Faculty Advisor</option>
               </select>
             </div>
 
@@ -110,7 +111,21 @@ const AddMemberPage = () => {
             
             <div>
               <label htmlFor="branch" className="block text-sm font-medium text-gray-600">Branch</label>
-              <input type="text" name="branch" id="branch" value={formData.branch} onChange={handleChange} required className="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"/>
+              <select name="branch" id="branch" value={formData.branch} onChange={handleChange} required className="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500">
+                <option>Computer Science and Engineering</option>
+                <option>Electronics and Telecommunication Engineering</option>
+                <option>Electrical Engineering</option>
+                <option>Mechanical Engineering</option>
+                <option>Civil Engineering</option>
+                <option>Instrumentation and Control Engineering</option>
+                <option>Manufacturing Engineering</option>
+                <option>Metallurgy and Material Engineering</option>
+                <option>Planning</option>
+              </select>
+            </div>
+            <div>
+              <label htmlFor="contactNumber" className="block text-sm font-medium text-gray-600">Contact Number</label>
+              <input type="tel" name="contactNumber" id="contactNumber" value={formData.contactNumber} onChange={handleChange} required className="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"/>
             </div>
 
             {/* Additional Information Section */}
@@ -118,16 +133,6 @@ const AddMemberPage = () => {
               <h3 className="text-lg font-semibold text-gray-700 border-b pb-2 mt-6 mb-4">Additional Information</h3>
             </div>
 
-            <div>
-              <label htmlFor="location" className="block text-sm font-medium text-gray-600">Location</label>
-              <input type="text" name="location" id="location" value={formData.location} onChange={handleChange} required className="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"/>
-            </div>
-
-            <div>
-              <label htmlFor="contactNumber" className="block text-sm font-medium text-gray-600">Contact Number</label>
-              <input type="tel" name="contactNumber" id="contactNumber" value={formData.contactNumber} onChange={handleChange} className="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"/>
-            </div>
-            
             <div className="md:col-span-2">
               <label htmlFor="expertise" className="block text-sm font-medium text-gray-600">Expertise (Comma-separated)</label>
               <input type="text" name="expertise" id="expertise" value={formData.expertise} onChange={handleChange} placeholder="e.g., React, Node.js, Figma" className="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"/>
@@ -155,10 +160,8 @@ const AddMemberPage = () => {
             
           </div>
 
-          {/* Error Message */}
           {error && <p className="mt-4 text-sm text-red-600">{error}</p>}
 
-          {/* Form Actions */}
           <div className="mt-8 flex justify-end gap-4">
             <button type="button" onClick={() => navigate('/admin/members')} className="px-4 py-2 bg-gray-200 text-gray-800 rounded-md hover:bg-gray-300">
               Cancel
