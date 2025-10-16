@@ -1,11 +1,11 @@
-import React from 'react'
+import React from 'react';
+import FacultyLayout from '../../layouts/FacultyLayout.jsx'; 
 
-const Dashboard = () => {
+const FacultyDashboard = () => {
   return (
-    <div>
-      <h1>Faculty Dashboard</h1>
-    </div>
-  )
-}
+    <FacultyLayout activePage="Dashboard" pageTitle="Dashboard Overview">
+    </FacultyLayout>
+  );
+};
 
-export default Dashboard
+export default FacultyDashboard;

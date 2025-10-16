@@ -1,4 +1,5 @@
 import mongoose from 'mongoose';
+
 //Mongo init
 const connectDB = async (mongoURI) => {
   try {
