@@ -1,52 +1,40 @@
 import mongoose from 'mongoose';
 
 const memberSchema = new mongoose.Schema({
-  name: {
-    type: String,
-    required: [true, 'Name is required'],
-    trim: true
-  },
-  email: {
-    type: String,
-    required: [true, 'Email is required'],
-    unique: true,
-    lowercase: true,
-    trim: true,
-  },
-  position: {
-    type: String,
-    required: [true, 'Position is required'],
-    trim: true
-  },
-  department: {
-    type: String,
-    trim: true
-  },
-  year: {
-    type: String,
-    trim: true
-  },
-  profileImage: {
-    type: String,
-    default: '' //Later
-  },
-  socialLinks: {
-    linkedin: { type: String, trim: true },
-    github: { type: String, trim: true },
-    portfolio: { type: String, trim: true, required : false}
-  },
-  isActive: {
-    type: Boolean,
-    default: true
-  },
-  joinDate: {
-    type: Date,
-    default: Date.now
-  }
-}, {
-  timestamps: true
-});
+    name: { type: String, required: true, trim: true },
+    email: {
+        type: String,
+        required: true,
+        unique: true, 
+        lowercase: true,
+        trim: true,
+        match: [/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/, 'Please fill a valid email address']
+    },
+    role: {
+        type: String,
+        required: true,
+        enum: ['Admin', 'Head', 'Member'] // Example roles
+    },
+    portfolio: {
+        type: String,
+        required: true,
+        enum: ['Events & Docs', 'Technical', 'Marketing', 'Design'] // Example portfolios
+    },
+    batch: { type: Number, required: true },
+    branch: { type: String, required: true },
+    joinedDate: { type: Date, required: true, default: Date.now },
+    expertise: { type: [String] }, 
+    location: { type: String, required: true },
+    photo: { type: String }, 
+    contactNumber: { type: String },
+    
+    socials: {
+        linkedin: { type: String },
+        github: { type: String },
+        email: { type: String },
+    },
 
-memberSchema.index({ name: 'text', email: 'text', skills: 'text' });
+}, { timestamps: true });
 
-export default mongoose.model('Member', memberSchema);
+const Member = mongoose.model('Member', memberSchema);
+export default Member;
