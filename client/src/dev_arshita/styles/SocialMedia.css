@@ -1,0 +1,20 @@
+.social_media {
+  position: absolute;
+  bottom: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 50px; 
+}
+
+.social_icon i {
+  font-size: 20px;
+  color: white;
+  opacity: 0.5;
+  transition: all 0.3s ease;
+}
+
+.social_icon i:hover {
+  opacity: 1;
+  transform: scale(1.2);
+}
