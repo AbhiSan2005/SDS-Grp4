@@ -1,15 +1,17 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link , useNavigate} from "react-router-dom";
 import AdminLayout from "../../../layouts/AdminLayout.jsx";
 import axios from 'axios';
-import { FilePenLine, Trash2, Plus, View } from "lucide-react";
+import { FilePenLine, Trash2, Plus, View, Sparkles } from "lucide-react";
 
 const ProjectManagementDashboard = () => {
+  const navigate = useNavigate();
   const [projects, setProjects] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [projectToDelete, setProjectToDelete] = useState(null);
+  const [generatingId, setGeneratingId] = useState(null);
 
   useEffect(() => {
     const fetchProjects = async () => {
@@ -24,6 +26,20 @@ const ProjectManagementDashboard = () => {
     };
     fetchProjects();
   }, []);
+
+  const handleGenerateReport = async (projectId) => {
+    setGeneratingId(projectId);
+    console.log("chal na bhaiiii");
+    try {
+      await axios.post(`${import.meta.env.VITE_API_URL}/api/reports/generate/${projectId}`);
+      alert("Report generated successfully!");
+      navigate('/admin/reports'); 
+    } catch (error) {
+      alert("Error generating report.");
+    } finally {
+      setGeneratingId(null);
+    }
+  };
 
   const handleOpenModal = (project) => {
     setProjectToDelete(project);
@@ -85,8 +101,19 @@ const ProjectManagementDashboard = () => {
                 </div>
               </div>
 
-              {/* Card Footer */}
               <div className="bg-gray-50 p-4 border-t border-gray-200 flex justify-end items-center gap-4 rounded-b-lg">
+                <button 
+                type="button"
+                onClick={() => handleGenerateReport(project._id)} 
+                disabled={generatingId === project._id}
+                className="flex items-center gap-2 px-3 py-1 text-sm bg-purple-100 text-purple-700 rounded-full hover:bg-purple-200 disabled:opacity-50"
+              >
+                {generatingId === project._id ? (
+                  <>Generating...</>
+                ) : (
+                  <><Sparkles size={16} /> Generate Report</>
+                )}
+              </button>
                 <Link to={`/admin/view-project/${project._id}`} title="View Details" className="text-gray-600 hover:text-gray-900">
                   <View size={20} />
                 </Link>

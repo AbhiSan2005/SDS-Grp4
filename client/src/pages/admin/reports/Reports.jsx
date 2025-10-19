@@ -1,63 +1,49 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import AdminLayout from '../../../layouts/AdminLayout.jsx';
 import axios from 'axios';
-import { Upload, Search, FilePenLine, Trash2, AlertTriangle, Download, View } from 'lucide-react';
-import ReportFormModal from './ReportFormModal'; // We'll create this component next
+import { Upload, Search, Trash2, Download, View } from 'lucide-react';
+import ReportFormModal from './ReportFormModal.jsx'; 
 
 const ReportsManagementDashboard = () => {
   const [reports, setReports] = useState([]);
+  const [projects, setProjects] = useState([]); 
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  // State for modals
   const [isFormModalOpen, setIsFormModalOpen] = useState(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
-  const [editingReport, setEditingReport] = useState(null);
   const [reportToDelete, setReportToDelete] = useState(null);
 
-  // State for search and filter
   const [searchQuery, setSearchQuery] = useState('');
   const [projectFilter, setProjectFilter] = useState('all');
 
   useEffect(() => {
-    // In a real app, you would fetch both reports and projects
-    const fetchReports = async () => {
+    const fetchData = async () => {
       try {
-        // const response = await axios.get(`${import.meta.env.VITE_API_URL}/api/reports`);
-        // setReports(response.data);
-        // Mock data for demonstration:
-        const mockReports = [
-          { _id: 'r1', title: 'Q3 Project Summary', associatedProject: 'Project Alpha', uploadDate: '2025-09-30', fileType: 'PDF', status: 'Approved' },
-          { _id: 'r2', title: 'Initial Design Mockups', associatedProject: 'Project Beta', uploadDate: '2025-10-05', fileType: 'Image', status: 'Pending' },
-          { _id: 'r3', title: 'Final Project Report', associatedProject: 'Project Alpha', uploadDate: '2025-10-10', fileType: 'DOCX', status: 'Approved' },
-        ];
-        setReports(mockReports);
+        // Currently only for projects will add later for events
+        const [reportsRes, projectsRes] = await Promise.all([
+          axios.get(`${import.meta.env.VITE_API_URL}/api/reports`),
+          axios.get(`${import.meta.env.VITE_API_URL}/api/projects`)
+        ]);
+
+        setReports(reportsRes.data);
+        setProjects(projectsRes.data);
       } catch (err) {
-        setError("Could not fetch reports.");
+        setError("Could not fetch data. Please try again later.");
       } finally {
         setLoading(false);
       }
     };
-    fetchReports();
+    fetchData();
   }, []);
 
-  // Filter and search logic
+  // Same filter logic
   const filteredReports = useMemo(() => {
+    if (!reports) return [];
     return reports
-      .filter(report => projectFilter === 'all' || report.associatedProject === projectFilter)
+      .filter(report => projectFilter === 'all' || report.project?._id === projectFilter)
       .filter(report => report.title.toLowerCase().includes(searchQuery.toLowerCase()));
   }, [reports, searchQuery, projectFilter]);
-
-  // Handlers for CRUD operations
-  const handleAddNew = () => {
-    setEditingReport(null);
-    setIsFormModalOpen(true);
-  };
-
-  const handleEdit = (report) => {
-    setEditingReport(report);
-    setIsFormModalOpen(true);
-  };
 
   const handleDelete = (report) => {
     setReportToDelete(report);
@@ -65,29 +51,41 @@ const ReportsManagementDashboard = () => {
   };
 
   const handleConfirmDelete = async () => {
-    // API call logic would go here
-    setReports(reports.filter(r => r._id !== reportToDelete._id));
-    setIsDeleteModalOpen(false);
-    setReportToDelete(null);
+    if (reportToDelete) {
+      try {
+        await axios.delete(`${import.meta.env.VITE_API_URL}/api/reports/${reportToDelete._id}`);
+        setReports(reports.filter(r => r._id !== reportToDelete._id));
+      } catch (err) {
+        alert("Error: Could not delete the report.");
+      } finally {
+        setIsDeleteModalOpen(false);
+        setReportToDelete(null);
+      }
+    }
   };
 
-  const handleSaveReport = (reportData) => {
-    if (editingReport) {
-      // Update logic
-      setReports(reports.map(r => r._id === editingReport._id ? { ...r, ...reportData } : r));
-    } else {
-      // Create logic
-      const newReport = { _id: `r${reports.length + 1}`, ...reportData, uploadDate: new Date().toISOString().split('T')[0] };
-      setReports([...reports, newReport]);
+  // This would be passed to the modal to handle the upload
+  const handleSaveReport = async (formData) => {
+    try {
+      setLoading(true);
+      await axios.post(`${import.meta.env.VITE_API_URL}/api/reports/upload`, formData);
+      const response = await axios.get(`${import.meta.env.VITE_API_URL}/api/reports`);
+      setReports(response.data);
+    } catch (err) {
+      alert('Upload failed. Please try again.');
+    } finally {
+      setIsFormModalOpen(false);
+      setLoading(false);
     }
-    setIsFormModalOpen(false);
-    setEditingReport(null);
   };
+
+
+  // Upload date shows
+  const formatDate = (dateString) => new Date(dateString).toLocaleDateString();
 
   return (
     <AdminLayout activePage="Reports Section" pageTitle="Reports Management">
       <div className="bg-white p-6 rounded-lg shadow-md">
-        {/* Header with Search and Actions */}
         <div className="flex flex-col md:flex-row justify-between items-center mb-4 gap-4">
           <div className="relative w-full md:w-1/3">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size={20} />
@@ -106,17 +104,17 @@ const ReportsManagementDashboard = () => {
               className="border border-gray-300 rounded-md py-2 px-4 w-full"
             >
               <option value="all">All Projects</option>
-              <option value="Project Alpha">Project Alpha</option>
-              <option value="Project Beta">Project Beta</option>
+              {projects.map(project => (
+                <option key={project._id} value={project._id}>{project.title}</option>
+              ))}
             </select>
-            <button onClick={handleAddNew} className="flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700">
+            <button onClick={() => setIsFormModalOpen(true)} className="flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700">
               <Upload size={18} />
               <span>Upload Report</span>
             </button>
           </div>
         </div>
-
-        {/* Reports Table */}
+        {/* Currently using table ig will think of card format or smh later on */}
         <div className="overflow-x-auto">
           <table className="w-full">
             <thead className="bg-gray-50">
@@ -124,30 +122,33 @@ const ReportsManagementDashboard = () => {
                 <th className="p-3 text-left text-sm font-semibold text-gray-600">Title</th>
                 <th className="p-3 text-left text-sm font-semibold text-gray-600">Associated Project</th>
                 <th className="p-3 text-left text-sm font-semibold text-gray-600">Date</th>
-                <th className="p-3 text-left text-sm font-semibold text-gray-600">Type</th>
                 <th className="p-3 text-left text-sm font-semibold text-gray-600">Status</th>
                 <th className="p-3 text-left text-sm font-semibold text-gray-600">Actions</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-gray-200">
               {loading ? (
-                <tr><td colSpan="6" className="p-4 text-center">Loading...</td></tr>
+                <tr><td colSpan="5" className="p-4 text-center">Loading...</td></tr>
               ) : error ? (
-                <tr><td colSpan="6" className="p-4 text-center text-red-500">{error}</td></tr>
+                <tr><td colSpan="5" className="p-4 text-center text-red-500">{error}</td></tr>
               ) : (
                 filteredReports.map((report) => (
                   <tr key={report._id} className="hover:bg-gray-50">
                     <td className="p-3 font-medium text-gray-900">{report.title}</td>
-                    <td className="p-3 text-gray-700">{report.associatedProject}</td>
-                    <td className="p-3 text-gray-700">{report.uploadDate}</td>
-                    <td className="p-3 text-gray-700">{report.fileType}</td>
+                    <td className="p-3 text-gray-700">{report.project?.title || 'N/A'}</td>
+                    <td className="p-3 text-gray-700">{formatDate(report.createdAt)}</td>
                     <td className="p-3"><span className={`px-2 py-1 text-xs rounded-full ${report.status === 'Approved' ? 'bg-green-100 text-green-800' : 'bg-yellow-100 text-yellow-800'}`}>{report.status}</span></td>
                     <td className="p-3">
                       <div className="flex items-center gap-4">
-                        <button title="View" className="text-gray-500 hover:text-black"><View size={18} /></button>
-                        <button title="Download" className="text-gray-500 hover:text-black"><Download size={18} /></button>
-                        <button onClick={() => handleEdit(report)} title="Edit" className="text-blue-600 hover:text-blue-800"><FilePenLine size={18} /></button>
-                        <button onClick={() => handleDelete(report)} title="Delete" className="text-red-600 hover:text-red-800"><Trash2 size={18} /></button>
+                        <a href={report.filePath} target="_blank" rel="noopener noreferrer" title="View Report" className="text-gray-500 hover:text-black">
+                          <View size={18} />
+                        </a>
+                        <a href={report.filePath} download title="Download Report" className="text-gray-500 hover:text-black">
+                          <Download size={18} />
+                        </a>
+                        <button onClick={() => handleDelete(report)} title="Delete" className="text-red-600 hover:text-red-800">
+                          <Trash2 size={18} />
+                        </button>
                       </div>
                     </td>
                   </tr>
@@ -158,16 +159,16 @@ const ReportsManagementDashboard = () => {
         </div>
       </div>
 
-      {/* Modals */}
       {isFormModalOpen && (
         <ReportFormModal
-          report={editingReport}
+          projects={projects} 
           onClose={() => setIsFormModalOpen(false)}
           onSave={handleSaveReport}
         />
       )}
+      
       {isDeleteModalOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
           <div className="bg-white rounded-lg p-6 w-full max-w-md">
             <h3 className="text-lg font-medium">Delete Report</h3>
             <p className="mt-2 text-sm text-gray-600">Are you sure you want to delete this report? This cannot be undone.</p>
@@ -183,3 +184,5 @@ const ReportsManagementDashboard = () => {
 };
 
 export default ReportsManagementDashboard;
+
+

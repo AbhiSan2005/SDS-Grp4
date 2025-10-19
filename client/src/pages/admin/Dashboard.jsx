@@ -3,6 +3,9 @@ import AdminLayout from '../../layouts/AdminLayout.jsx';
 import { Link } from 'react-router-dom';
 import { Users, FolderKanban, Calendar, FileText, PlusCircle, Bell, Clock } from 'lucide-react';
 
+
+
+// Will change this whole layout once backend is ready
 const AdminDashboard = () => {
   // Mock data for demonstration purposes
   const stats = [

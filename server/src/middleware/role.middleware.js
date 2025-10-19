@@ -4,7 +4,7 @@ export const restrictTo = (...roles) => {
     if (!req.user) {
       return res.status(401).json({
         success: false,
-        message: 'Not authenticated'
+        message: "Not authenticated",
       });
     }
 
@@ -12,7 +12,7 @@ export const restrictTo = (...roles) => {
     if (!roles.includes(req.user.role)) {
       return res.status(403).json({
         success: false,
-        message: 'You do not have permission to perform this action'
+        message: "You do not have permission to perform this action",
       });
     }
 
@@ -21,20 +21,20 @@ export const restrictTo = (...roles) => {
 };
 
 export const adminOnly = (req, res, next) => {
-  if (!req.user || req.user.role !== 'admin') {
+  if (!req.user || req.user.role !== "admin") {
     return res.status(403).json({
       success: false,
-      message: 'Admin access required'
+      message: "Admin access required",
     });
   }
   next();
 };
 
 export const facultyOnly = (req, res, next) => {
-  if (!req.user || req.user.role !== 'faculty') {
+  if (!req.user || req.user.role !== "faculty") {
     return res.status(403).json({
       success: false,
-      message: 'Faculty access required'
+      message: "Faculty access required",
     });
   }
   next();

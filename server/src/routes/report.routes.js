@@ -1,21 +1,29 @@
 import express from 'express';
-import { getAllReports, getReport, createReport, updateReport, deleteReport, downloadReport } from '../controllers/report.controller.js';
+import { getReports, uploadReport, generateAndSaveReport , deleteReport} from '../controllers/report.admin.controller.js';
 import { protect } from '../middleware/auth.middleware.js';
 import { restrictTo, adminOnly } from '../middleware/role.middleware.js';
+import upload from '../middleware/multer.middleware.js';
 
 const router = express.Router();
 
-// All routes require authentication
-router.use(protect);
+// // All routes require authentication
+// router.use(protect);
 
-// Routes accessible by both admin and faculty
-router.get('/', restrictTo('admin', 'faculty'), getAllReports);
-router.get('/:id', restrictTo('admin', 'faculty'), getReport);
-router.get('/:id/download', restrictTo('admin', 'faculty'), downloadReport);
+// // Routes accessible by both admin and faculty
+// router.get('/', restrictTo('admin', 'faculty'), getAllReports);
+// router.get('/:id', restrictTo('admin', 'faculty'), getReport);
+// router.get('/:id/download', restrictTo('admin', 'faculty'), downloadReport);
 
-// Admin only routes (file upload will be added later when needed)
-router.post('/', adminOnly, createReport);
-router.put('/:id', adminOnly, updateReport);
-router.delete('/:id', adminOnly, deleteReport);
+// // Admin only routes (file upload will be added later when needed)
+// router.post('/', adminOnly, createReport);
+// router.put('/:id', adminOnly, updateReport);
+// router.delete('/:id', adminOnly, deleteReport);
+
+// testing 
+
+router.get('/', getReports);
+router.delete('/:id', deleteReport);
+router.post('/upload', upload.single('reportFile'), uploadReport);
+router.post('/generate/:projectId', generateAndSaveReport);
 
 export default router;

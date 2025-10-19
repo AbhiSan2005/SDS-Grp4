@@ -2,7 +2,7 @@ import React, { useState, useEffect, useMemo } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import AdminLayout from "../../../layouts/AdminLayout.jsx";
 import axios from "axios";
-import { X } from "lucide-react"; 
+import { X, Camera } from "lucide-react"; 
 
 const EditProjectPage = () => {
   const navigate = useNavigate();
@@ -12,10 +12,11 @@ const EditProjectPage = () => {
   const [allMembers, setAllMembers] = useState([]);
   const [memberSearchTerm, setMemberSearchTerm] = useState("");
   const [selectedMembers, setSelectedMembers] = useState([]);
+  const [imagePreview, setImagePreview] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
-  useEffect(() => {
+useEffect(() => {
     const fetchData = async () => {
       try {
         const projectRes = await axios.get(
@@ -31,16 +32,14 @@ const EditProjectPage = () => {
         setFormData({
           ...projectData,
           technologies: projectData.technologies.join(", "),
-          startDate: projectData.startDate
-            ? new Date(projectData.startDate).toISOString().split("T")[0]
-            : "",
-          endDate: projectData.endDate
-            ? new Date(projectData.endDate).toISOString().split("T")[0]
-            : "",
+          startDate: projectData.startDate ? new Date(projectData.startDate).toISOString().split("T")[0] : "",
+          endDate: projectData.endDate ? new Date(projectData.endDate).toISOString().split("T")[0] : "",
           members: projectData.members?.map((m) => m._id) || [],
+          image: projectData.image, // Keep the original image URL initially
         });
 
         setSelectedMembers(projectData.members || []);
+        setImagePreview(projectData.image); // Set the initial image preview
       } catch (err) {
         console.error("Failed to load data:", err);
         setError("Failed to load project data. It may not exist.");
@@ -54,10 +53,18 @@ const EditProjectPage = () => {
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
-    setFormData((prevData) => ({
-      ...prevData,
+    setFormData((prev) => ({
+      ...prev,
       [name]: type === "checkbox" ? checked : value,
     }));
+  };
+
+  const handleImageChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      setFormData(prev => ({ ...prev, image: file }));
+      setImagePreview(URL.createObjectURL(file));
+    }
   };
 
   const handleSelectMember = (member) => {
@@ -82,25 +89,33 @@ const EditProjectPage = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
+    setLoading(true);
 
-    const submissionData = {
-      ...formData,
-      technologies: formData.technologies
-        .split(",")
-        .map((item) => item.trim())
-        .filter(Boolean),
-    };
+    const finalFormData = new FormData();
+    Object.keys(formData).forEach(key => {
+    if (key !== 'members') {
+        finalFormData.append(key, formData[key]);
+    }
+});
+
+
+formData.members.forEach(memberId => {
+    finalFormData.append('members', memberId);
+});
+    finalFormData.set('technologies', formData.technologies.split(",").map(item => item.trim()).filter(Boolean));
 
     try {
       await axios.put(
         `${import.meta.env.VITE_API_URL}/api/projects/${id}`,
-        submissionData
+        finalFormData // Send as FormData
       );
       alert("Project updated successfully!");
       navigate("/admin/projects");
     } catch (err) {
       console.error("Failed to update project:", err);
       setError(err.response?.data?.message || "An error occurred.");
+    } finally {
+        setLoading(false);
     }
   };
   
@@ -152,8 +167,20 @@ const EditProjectPage = () => {
               </div>
             </div>
             <div>
-              <label htmlFor="image" className="block text-sm font-medium text-gray-700">Image Link</label>
-              <input type="url" name="image" id="image" value={formData.image} onChange={handleChange} placeholder="https://.../image.png" className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm"/>
+              <label className="block text-sm font-medium text-gray-700">Project Image</label>
+              <div className="mt-2 flex items-center gap-4">
+                <div className="h-24 w-24 rounded-md overflow-hidden bg-gray-100 flex items-center justify-center">
+                  {imagePreview ? (
+                    <img src={imagePreview} alt="Project Preview" className="h-full w-full object-cover" />
+                  ) : (
+                    <Camera className="h-10 w-10 text-gray-400"/>
+                  )}
+                </div>
+                <label htmlFor="image-upload" className="cursor-pointer bg-white py-2 px-3 border border-gray-300 rounded-md text-sm font-medium hover:bg-gray-50">
+                  <span>Change Image</span>
+                  <input id="image-upload" name="image" type="file" onChange={handleImageChange} className="sr-only" accept="image/*"/>
+                </label>
+              </div>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div>

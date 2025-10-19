@@ -6,7 +6,7 @@ import memberRoutes from './src/routes/member.routes.js';
 // import userRoutes from './src/routes/user.routes.js'; 
 import projectRoutes from './src/routes/project.routes.js';
 import eventRoutes from './src/routes/event.routes.js';
-// import reportRoutes from './src/routes/report.routes.js';
+import reportRoutes from './src/routes/report.routes.js';
 // import adminRoutes from './src/routes/admin.routes.js';
 // import facultyRoutes from './src/routes/faculty.routes.js';
 import connectDB from './src/config/db.js';
@@ -32,7 +32,7 @@ app.use(cors());
 app.use('/api/members', memberRoutes);
 app.use('/api/projects', projectRoutes);
 app.use('/api/events', eventRoutes);
-// app.use('/api/reports', reportRoutes);
+app.use('/api/reports', reportRoutes);
 // app.use('/api/admin', adminRoutes);
 // app.use('/api/faculty', facultyRoutes);
 

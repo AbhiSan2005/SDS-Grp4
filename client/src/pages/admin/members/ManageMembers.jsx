@@ -101,12 +101,10 @@ const MemberManagementDashboard = () => {
       .sort((a, b) => (roleOrder[a.role] || 99) - (roleOrder[b.role] || 99));
   }, [members, searchTerm, filterRole, filterPortfolio, filterBatch]);
 
-  // Memoized unique dropdown options
   const uniqueRoles = useMemo(() => [...new Set(members.map(m => m.role).sort())], [members]);
   const uniquePortfolios = useMemo(() => [...new Set(members.map(m => m.portfolio).sort())], [members]);
   const uniqueBatches = useMemo(() => [...new Set(members.map(m => m.batch).sort())], [members]);
   
-  // Calculate active dropdown filters for the badge
   const activeDropdownFilterCount = [filterRole, filterPortfolio, filterBatch].filter(Boolean).length;
 
 

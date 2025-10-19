@@ -3,54 +3,34 @@ import mongoose from 'mongoose';
 const reportSchema = new mongoose.Schema({
   title: {
     type: String,
-    required: [true, 'Report title is required'],
-    trim: true
+    required: true,
+    trim: true,
   },
   description: {
     type: String,
-    required: [true, 'Report description is required']
+    trim: true,
   },
   project: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Project',
-    required: false
+    required: true,
   },
-  reportType: {
-    type: String,
-    enum: ['Project Report', 'Event Report', 'Monthly Report', 'Annual Report', 'Other'],
-    default: 'Project Report'
-  },
+  // Will add later the events association if needed
   filePath: {
     type: String,
-    required: [true, 'Report file is required']
+    required: true,
   },
-  fileName: {
-    type: String,
-    required: true
+  fileType: {
+    type: String, 
   },
-  fileSize: {
-    type: Number
-  },
-  uploadedBy: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'User',
-    required: true
-  },
-  dateFrom: {
-    type: Date
-  },
-  dateTo: {
-    type: Date
-  },
+
   status: {
     type: String,
-    enum: ['Draft', 'Published', 'Archived'],
-    default: 'Published'
-  }
-}, {
-  timestamps: true
-});
+    enum: ['Pending', 'Approved', 'Rejected'],
+    default: 'Pending',
+  },
+}, { timestamps: true }); 
 
-reportSchema.index({ title: 'text', description: 'text' });
+const Report = mongoose.model('Report', reportSchema);
 
-export default mongoose.model('Report', reportSchema);
+export default Report;
