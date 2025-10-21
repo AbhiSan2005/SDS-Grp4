@@ -4,9 +4,9 @@ import AdminLayout from '../../../layouts/AdminLayout.jsx'; // Adjust path as ne
 import axios from 'axios'; // Import axios, even if not used yet
 import { Upload, FolderPlus, Search, Grid, List, ChevronRight } from 'lucide-react';
 import FileOrFolderItem from './FileFolder.jsx'; // Assuming it's in the same folder
-import CreateFolderModal from './modals/CreateFolderModal'; // Assuming modals are in a subfolder
-import RenameModal from './modals/RenameModal';
-import DeleteModal from './modals/DeleteModal';
+// import CreateFolderModal from './modals/CreateFolderModal'; // Assuming modals are in a subfolder
+// import RenameModal from './modals/RenameModal';
+// import DeleteModal from './modals/DeleteModal';
 
 // --- MOCK API CALLS (Placeholders for your future backend calls) ---
 const mockApi = {

@@ -16,6 +16,7 @@ import About_Us from './pages/public/AboutUS.jsx'
 import Events from './pages/public/Events.jsx'
 import AddEventPage from './pages/admin/events/AddEvent.jsx'
 import EditEventPage from './pages/admin/events/EditEvent.jsx'
+import EventViewPage from './pages/admin/events/EventViewPage.jsx'
 import Projects from './pages/public/Projects.jsx'
 import Members from './pages/public/Members.jsx'
 import AddMember from './pages/admin/members/AddNewMember.jsx'
@@ -47,8 +48,10 @@ const App = () => {
         <Route path="/admin/edit-project/:id" element={<EditProject />} />
 
         <Route path="/admin/events" element={<Events_Admin />} />
-        <Route path="/admin/events/new" element={<AddEventPage />} />
-        <Route path="/admin/events/edit/:id" element={<EditEventPage />} /> 
+        <Route path="/admin/add-event" element={<AddEventPage />} />
+        <Route path="/admin/edit-event/:id" element={<EditEventPage />} />
+        <Route path="/admin/view-event/:id" element={<EventViewPage />} />
+
 
         <Route path="/admin/reports" element={<Reports_Admin />} />
         <Route path="/admin/files" element={<Files_Admin />} />
