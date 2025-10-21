@@ -1,11 +1,54 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
+import UserLayout from '../../layouts/UserLayout.jsx';
+import EventCard from '../../components/EventCard.jsx';
 
-const Events = () => {
+const EventsPage = () => {
+  const [events, setEvents] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState('');
+
+  useEffect(() => {
+    const fetchEvents = async () => {
+      setLoading(true);
+      setError('');
+      try {
+        const res = await axios.get(`${import.meta.env.VITE_API_URL}/api/events`);
+        setEvents(res.data || []);
+      } catch (err) {
+        setError(err.response?.data?.message || 'Failed to fetch events.');
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchEvents();
+  }, []);
+
   return (
-    <div>
-      <h1>Events</h1>
-    </div>
-  )
-}
+    <UserLayout>
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+        <header className="mb-6">
+          <h1 className="text-3xl font-bold text-gray-800">Events</h1>
+          <p className="text-gray-600 mt-1">Upcoming and past events from the SDS Portal.</p>
+        </header>
 
-export default Events
+        {loading ? (
+          <div className="flex items-center justify-center py-20">Loading events...</div>
+        ) : error ? (
+          <div className="text-red-600">{error}</div>
+        ) : events.length === 0 ? (
+          <div className="text-gray-600">No events found.</div>
+        ) : (
+          <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            {events.map((ev) => (
+              <EventCard key={ev._id || ev.id} event={ev} />
+            ))}
+          </section>
+        )}
+      </main>
+    </UserLayout>
+  );
+};
+
+export default EventsPage;
