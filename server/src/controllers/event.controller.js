@@ -1,6 +1,7 @@
 import Event from "../models/event.model.js";
+import cloudinary from "../config/cloudinary.js";
 
-export const getEvents = async(req,res) =>{
+export const getEvents = async(req,res) => {
     try {
         const events = await Event.find();
         res.status(200).json(events);
@@ -40,6 +41,18 @@ export const deleteEvent = async (req, res) => {
             return res.status(404).json({ message: 'Event not found' });
         }
         res.status(204).send();
+    } catch (error) {
+        res.status(500).json({message: error.message});
+    }
+};
+
+export const getEventById = async (req,res) =>{
+    try {
+        const {id} = req.params;
+        const event = await Event.findById(id);
+        if(!event)
+            return res.status(404).json({message: "Event not found"});
+        res.status(200).json(event);
     } catch (error) {
         res.status(500).json({message: error.message});
     }
