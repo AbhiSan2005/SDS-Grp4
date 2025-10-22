@@ -20,8 +20,9 @@ import Projects from './pages/public/Projects.jsx'
 import Members from './pages/public/Members.jsx'
 import AddMember from './pages/admin/members/AddNewMember.jsx'
 import EditMemberPage from './pages/admin/members/UpdateMember.jsx'
+import Request_Project from './pages/public/Request_Project.jsx'
 
-import FacultyDashboard from './pages/faculty/Dashboard.jsx'
+import FacultyDashboard from './pages/faculty/FacultyDashboard.jsx'
 import Reports_Faculty from './pages/faculty/reports/ViewReports.jsx'
 
 // below import is for faculty login
@@ -37,7 +38,7 @@ const App = () => {
         <Route path="/events" element = {<Events/>} />
         <Route path="/projects" element = {<Projects/>} />
         <Route path="/members" element = {<Members/>} />
-
+        <Route path ="/Request_Project" element = {<Request_Project/>} />
 
         <Route path="/admin" element={<AdminDashboard />} />
 
@@ -56,6 +57,8 @@ const App = () => {
 
         <Route path="/admin/reports" element={<Reports_Admin />} />
         <Route path="/admin/files" element={<Files_Admin />} />
+
+        
         
         {/* //below path earlier used to be only /faculty */}
         <Route path="/faculty/dashboard" element = {<FacultyDashboard/>} />
