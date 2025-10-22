@@ -1,3 +1,4 @@
+// <<<<<<< HEAD
 import React, { use } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 
@@ -18,5 +19,16 @@ const Dashboard = () => {
     </div>
   )
 }
+// =======
+// import React from 'react';
+// import FacultyLayout from '../../layouts/FacultyLayout.jsx'; 
 
-export default Dashboard
+// const FacultyDashboard = () => {
+//   return (
+//     <FacultyLayout activePage="Dashboard" pageTitle="Dashboard Overview">
+//     </FacultyLayout>
+//   );
+// };
+// >>>>>>> origin/dev_abhiraj
+
+export default FacultyDashboard;

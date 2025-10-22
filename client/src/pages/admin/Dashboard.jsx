@@ -1,126 +1,104 @@
-import React, { useState } from 'react';
+import React from 'react';
+import AdminLayout from '../../layouts/AdminLayout.jsx';
+import { Link } from 'react-router-dom';
+import { Users, FolderKanban, Calendar, FileText, PlusCircle, Bell, Clock } from 'lucide-react';
 
-import {
-  LayoutDashboard,
-  Users,
-  FolderKanban,
-  CalendarDays,
-  FileText,
-  Folder,
-  LogOut,
-  UserCircle,
-  ChevronsLeft,
-} from 'lucide-react';
 
-import Navbar from '../../components/Navbar.jsx';
+
+// Will change this whole layout once backend is ready
 const AdminDashboard = () => {
-  const [isCollapsed, setIsCollapsed] = useState(false);
+  // Mock data for demonstration purposes
+  const stats = [
+    { title: 'Total Members', value: 42, icon: <Users />, link: '/admin/members' },
+    { title: 'Total Projects', value: 15, icon: <FolderKanban />, link: '/admin/projects' },
+    { title: 'Upcoming Events', value: 3, icon: <Calendar />, link: '/admin/events' },
+    { title: 'Pending Reports', value: 2, icon: <FileText />, link: '/admin/reports' },
+  ];
 
-  const navItems = [
-    { name: 'Dashboard', icon: <LayoutDashboard size={20} />, href: '/admin' },
-    { name: 'Members Management', icon: <Users size={20} />, href: '/admin/members' },
-    { name: 'Projects Management', icon: <FolderKanban size={20} />, href: '/admin/projects' },
-    { name: 'Events Management', icon: <CalendarDays size={20} />, href: '/admin/events' },
-    { name: 'Reports Section', icon: <FileText size={20} />, href: '/admin/reports' },
-    { name: 'File Manager', icon: <Folder size={20} />, href: '/admin/files' },
+  const quickActions = [
+    { label: 'Add New Member', link: '/admin/add-member' },
+    { label: 'Add New Project', link: '/admin/add-project' },
+    { label: 'Create New Event', link: '/admin/events/new' },
+    { label: 'Upload Report', link: '/admin/reports' },
+  ];
+  
+  const recentActivity = [
+    { action: 'New member added:', subject: 'Priya Singh', time: '2 hours ago' },
+    { action: 'Project updated:', subject: 'Project Alpha', time: '5 hours ago' },
+    { action: 'New event created:', subject: 'React Workshop', time: '1 day ago' },
+    { action: 'Report uploaded:', subject: 'Q3 Financials.pdf', time: '2 days ago' },
   ];
 
   return (
-    <div className="flex h-screen bg-gray-100 font-sans">
-      {/* Collapsible Sidebar */}
-      <aside
-        className={`flex flex-col bg-white border-r border-gray-200 transition-all duration-300 ease-in-out ${
-          isCollapsed ? 'w-20' : 'w-64'
-        }`}
-      >
-        {/* Sidebar Header */}
-        <div className="p-4 border-b flex items-center justify-between">
-          <h1
-            className={`text-2xl font-bold text-gray-800 transition-opacity duration-200 ${
-              isCollapsed ? 'opacity-0 hidden' : 'opacity-100'
-            }`}
-          >
-            SDS Admin
-          </h1>
-          <button
-            onClick={() => setIsCollapsed(!isCollapsed)}
-            className="p-2 rounded-md hover:bg-gray-200"
-          >
-            <ChevronsLeft
-              className={`transition-transform duration-300 ${
-                isCollapsed ? 'rotate-180' : ''
-              }`}
-            />
-          </button>
+    <AdminLayout activePage="Dashboard" pageTitle="Dashboard">
+      <div className="space-y-6">
+        
+        {/* At-a-Glance Stats Cards */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          {stats.map((stat) => (
+            <Link to={stat.link} key={stat.title} className="bg-white p-6 rounded-lg shadow-md hover:shadow-xl transition-shadow flex items-center justify-between">
+              <div>
+                <p className="text-sm font-medium text-gray-500">{stat.title}</p>
+                <p className="text-3xl font-bold text-gray-800">{stat.value}</p>
+              </div>
+              <div className="bg-blue-100 text-blue-600 p-3 rounded-full">
+                {React.cloneElement(stat.icon, { size: 24 })}
+              </div>
+            </Link>
+          ))}
         </div>
 
-        {/* Navigation Links */}
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          {/* Quick Actions & Recent Activity */}
+          <div className="lg:col-span-2 space-y-6">
+            
+            {/* Quick Actions */}
+            <div className="bg-white p-6 rounded-lg shadow-md">
+              <h3 className="text-lg font-semibold text-gray-800 mb-4">Quick Actions</h3>
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
+                {quickActions.map((action) => (
+                  <Link key={action.label} to={action.link} className="flex flex-col items-center justify-center p-4 bg-gray-50 hover:bg-blue-50 rounded-lg transition-colors">
+                    <PlusCircle className="text-blue-500 mb-2" size={28} />
+                    <span className="text-sm font-medium text-center text-gray-700">{action.label}</span>
+                  </Link>
+                ))}
+              </div>
+            </div>
 
-        <nav className="flex-grow p-4">
-          <ul>
-            {navItems.map((item) => (
-              <li key={item.name} className="mb-2">
-                <a
-                  href={item.href}
-                  className={`flex items-center p-2 text-gray-600 rounded-md hover:bg-gray-200 transition-colors ${
-                    item.name === 'Dashboard' ? 'bg-gray-200 font-semibold text-gray-900' : ''
-                  } ${isCollapsed ? 'justify-center' : ''}`}
-                  title={item.name} // Tooltip for collapsed view
-                >
-                  <span className="text-gray-500">{item.icon}</span>
-                  <span
-                    className={`ml-3 transition-opacity duration-200 ${
-                      isCollapsed ? 'opacity-0 hidden' : 'opacity-100'
-                    }`}
-                  >
-                    {item.name}
-                  </span>
-                </a>
-              </li>
-            ))}
-          </ul>
-        </nav>
-
-        {/* Sidebar Footer (Logout) */}
-
-        <div className="p-4 border-t border-gray-200">
-          <a
-            href="/logout"
-            className={`flex items-center p-2 text-red-500 rounded-md hover:bg-red-100 transition-colors ${
-              isCollapsed ? 'justify-center' : ''
-            }`}
-            title="Logout"
-          >
-            <LogOut size={20} />
-            <span
-              className={`ml-3 font-medium transition-opacity duration-200 ${
-                isCollapsed ? 'opacity-0 hidden' : 'opacity-100'
-              }`}
-            >
-              Logout
-            </span>
-          </a>
-        </div>
-      </aside>
-
-      {/* Main Content */}
-
-      <div className="flex-1 flex flex-col overflow-hidden">
-        {/* Header Bar */}
-
-        <header className="flex justify-between items-center p-4 bg-white border-b border-gray-200">
-          <h2 className="text-xl font-semibold text-gray-700">Dashboard Overview</h2>
-          <div className="flex items-center">
-            <span className="text-gray-600 mr-4">Welcome, Admin!</span>
-            <button className="p-2 rounded-full hover:bg-gray-200">
-              <UserCircle size={24} className="text-gray-600" />
-            </button>
+            {/* Placeholder for a Chart */}
+            <div className="bg-white p-6 rounded-lg shadow-md">
+                <h3 className="text-lg font-semibold text-gray-800 mb-4">Member Growth (Last 6 Months)</h3>
+                <div className="h-64 bg-gray-100 rounded-md flex items-center justify-center">
+                    <p className="text-gray-400">Chart would be displayed here</p>
+                </div>
+            </div>
           </div>
-        </header>
-
-
+          
+          {/* Recent Activity Feed */}
+          <div className="bg-white p-6 rounded-lg shadow-md">
+            <h3 className="text-lg font-semibold text-gray-800 mb-4 flex items-center gap-2">
+              <Bell size={20} />
+              Recent Activity
+            </h3>
+            <ul className="space-y-4">
+              {recentActivity.map((activity, index) => (
+                <li key={index} className="flex items-start">
+                  <div className="bg-gray-100 p-2 rounded-full mr-3 mt-1">
+                    <Clock size={16} className="text-gray-500"/>
+                  </div>
+                  <div>
+                    <p className="text-sm text-gray-600">
+                      {activity.action} <span className="font-semibold text-gray-800">{activity.subject}</span>
+                    </p>
+                    <p className="text-xs text-gray-400">{activity.time}</p>
+                  </div>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
       </div>
-    </div>
+    </AdminLayout>
   );
 };
 
