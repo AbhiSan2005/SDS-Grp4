@@ -41,7 +41,7 @@ const WebsiteNavbar = () => {
           {/* Desktop CTA & Login Buttons */}
           <div className="hidden md:flex items-center gap-4">
             <a
-              href="#"
+              href="/Request_Project"
               className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors font-semibold text-sm"
             >
               Request a Project
