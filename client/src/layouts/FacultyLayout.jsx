@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
-import Sidebar from '../components/Sidebar.jsx'; 
+import FacultySidebar from '../components/FacultySidebar.jsx'; 
 import { UserCircle } from 'lucide-react';
 
-const AdminLayout = ({ activePage, pageTitle, children }) => {
+const FacultyLayout = ({ activePage, pageTitle, children }) => {
   const [isCollapsed, setIsCollapsed] = useState(false);
 
   return (
     <div className="flex h-screen bg-gray-100 font-sans">
-      <Sidebar 
+      <FacultySidebar 
         isCollapsed={isCollapsed}
         setIsCollapsed={setIsCollapsed}
         activePage={activePage}
@@ -34,4 +34,4 @@ const AdminLayout = ({ activePage, pageTitle, children }) => {
   );
 };
 
-export default AdminLayout;
+export default FacultyLayout;
