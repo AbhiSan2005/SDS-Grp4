@@ -13,7 +13,7 @@ const Members = () => {
       setLoading(true);
       setError('');
       try {
-        const res = await axios.get('http://localhost:5000/api/members');
+        const res = await axios.get(`${import.meta.env.VITE_API_URL}/api/members`);
         
         console.log('Members API Response:', res.data);
         console.log('Is Array?', Array.isArray(res.data));

@@ -1,5 +1,5 @@
 import express from 'express';
-import { getReports, uploadReport, generateAndSaveReport , deleteReport} from '../controllers/report.admin.controller.js';
+import { getReports, uploadReport, generateAndSaveProjectReport ,generateAndSaveEventReport, deleteReport} from '../controllers/report.admin.controller.js';
 import { protect } from '../middleware/auth.middleware.js';
 import { restrictTo, adminOnly } from '../middleware/role.middleware.js';
 import upload from '../middleware/multer.middleware.js';
@@ -24,6 +24,7 @@ const router = express.Router();
 router.get('/', getReports);
 router.delete('/:id', deleteReport);
 router.post('/upload', upload.single('reportFile'), uploadReport);
-router.post('/generate/:projectId', generateAndSaveReport);
+router.post('/generate/project/:projectId', generateAndSaveProjectReport);
+router.post('/generate/event/:eventId', generateAndSaveEventReport);
 
 export default router;

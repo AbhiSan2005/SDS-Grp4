@@ -1,6 +1,7 @@
 import { GoogleGenerativeAI } from "@google/generative-ai";
 import Project from '../models/project.model.js';
 import Report from '../models/report.model.js';
+import Event from "../models/event.model.js";
 import cloudinary from '../config/cloudinary.js';
 import PDFDocument from 'pdfkit';
 
@@ -8,6 +9,7 @@ export const getReports = async(req,res) =>{
     try {
         const reports = await Report.find()
             .populate('project', 'title')
+            .populate('event')
             .sort({ createdAt: -1 });
         res.status(200).json(reports);
     } catch (error) {
@@ -15,6 +17,7 @@ export const getReports = async(req,res) =>{
         res.status(500).json({ message: 'Failed to fetch reports.' });
     }
 }
+
 export const deleteReport = async (req, res) => {
     const {id} = req.params;
     try {
@@ -67,9 +70,9 @@ export const uploadReport = async (req, res) => {
 // Generating the report takes here 
 
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
-const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash" });
+const model = genAI.getGenerativeModel({ model: "gemini-2.5-pro" });
 
-export const generateAndSaveReport = async (req, res) => {
+export const generateAndSaveProjectReport = async (req, res) => {
   try {
     const { projectId } = req.params;
 
@@ -91,7 +94,6 @@ export const generateAndSaveReport = async (req, res) => {
 
     const result = await model.generateContent(prompt);
     const reportText = await result.response.text();
-    console.log("Generate hoooo", reportText);
     
     // Using PDFKit to create a PDF 
     const doc = new PDFDocument({ margin: 50 });
@@ -140,6 +142,72 @@ export const generateAndSaveReport = async (req, res) => {
 
   } catch (error) {
     console.error("Error generating report:", error);
-    res.status(500).json({ message: 'Failed to generate report.' });
+    res.status(500).json({ message: 'Failed to generate project report.' });
+  }
+};
+
+export const generateAndSaveEventReport = async (req, res) => {
+  try {
+    const { eventId } = req.params;
+
+    const event = await Event.findById(eventId);
+    if (!event) {
+      return res.status(404).json({ message: 'Event not found.' });
+    }
+
+    const prompt = `
+      Generate a professional event summary report in markdown format.
+      Include sections like: Event Overview, Date & Location, Key Highlights, and Organizer.
+      
+      Event Title: ${event.title}
+      Description: ${event.description}
+      Start Date: ${new Date(event.startDate).toLocaleString()}
+      End Date: ${new Date(event.endDate).toLocaleString()}
+      Location: ${event.location}
+      Organizer: ${event.organizer}
+    `;
+
+    const result = await model.generateContent(prompt);
+    const reportText = await result.response.text();
+
+    const pdfBuffer = await new Promise((resolve, reject) => {
+      const doc = new PDFDocument({ margin: 50 });
+      const buffers = [];
+      doc.on('data', buffers.push.bind(buffers));
+      doc.on('end', () => resolve(Buffer.concat(buffers)));
+      doc.on('error', reject);
+      doc.fontSize(24).text(`Event Report: ${event.title}`, { align: 'center' });
+      doc.moveDown();
+      doc.fontSize(12).text(reportText); 
+      doc.end();
+    });
+
+    const cloudinaryUpload = (buffer) => {
+      return new Promise((resolve, reject) => {
+        const safeEventTitle = event.title.replace(/[^a-zA-Z0-9_]/g, '_');
+        const desiredFilename = `${safeEventTitle}_report`;
+        const uploadStream = cloudinary.uploader.upload_stream(
+          { folder: "sds_event_reports", resource_type: "raw", format: 'pdf', public_id: desiredFilename },
+          (error, result) => { if (error) reject(error); else resolve(result); }
+        );
+        uploadStream.end(buffer);
+      });
+    };
+    const uploadResult = await cloudinaryUpload(pdfBuffer);
+
+    const newReport = new Report({
+      title: `AI-Generated Report for ${event.title}`,
+      event: event._id,
+      filePath: uploadResult.secure_url,
+      fileType: 'application/pdf',
+      status: 'Approved'
+    });
+    await newReport.save();
+
+    res.status(201).json({ message: 'Event report generated and saved!', report: newReport });
+
+  } catch (error) {
+    console.error("Error generating event report:", error);
+    res.status(500).json({ message: 'Failed to generate event report.' });
   }
 };

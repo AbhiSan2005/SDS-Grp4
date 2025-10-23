@@ -31,7 +31,7 @@ const ProjectManagementDashboard = () => {
     setGeneratingId(projectId);
     console.log("chal na bhaiiii");
     try {
-      await axios.post(`${import.meta.env.VITE_API_URL}/api/reports/generate/${projectId}`);
+      await axios.post(`${import.meta.env.VITE_API_URL}/api/reports/generate/project/${projectId}`);
       alert("Report generated successfully!");
       navigate('/admin/reports'); 
     } catch (error) {

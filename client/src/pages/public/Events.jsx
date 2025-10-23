@@ -13,7 +13,7 @@ const EventsPage = () => {
       setLoading(true);
       setError('');
       try {
-        const res = await axios.get('http://localhost:5000/api/events');
+        const res = await axios.get(`${import.meta.env.VITE_API_URL}/api/events`);
         
         // Ensure we always set an array
         if (Array.isArray(res.data)) {
