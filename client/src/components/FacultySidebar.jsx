@@ -85,7 +85,7 @@ const FacultySidebar = ({ isCollapsed, setIsCollapsed, activePage }) => {
               isCollapsed ? 'opacity-0 hidden w-0' : 'opacity-100 w-auto'
             }`}
           >
-            Login
+            LogOut
           </span>
         </a>
       </div>
