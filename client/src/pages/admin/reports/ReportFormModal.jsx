@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 const ReportFormModal = ({ projects, onClose, onSave }) => {
   const [formData, setFormData] = useState({
     title: '',
-    project: '', // Project ID
+    project: '', 
     file: null,
   });
   const [error, setError] = useState('');

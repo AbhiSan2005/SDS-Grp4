@@ -22,8 +22,6 @@ router.get("/:id", getProjectById);
 // router.put('/:id', protect, adminOnly, upload.single('image'), updateProject);
 // router.delete('/:id', protect, adminOnly, deleteProject);
 
-
-
 // Testing
 
 router.post("/", upload.single("image"), createProject);

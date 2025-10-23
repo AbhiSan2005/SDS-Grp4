@@ -13,9 +13,13 @@ const reportSchema = new mongoose.Schema({
   project: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Project',
-    required: true,
+    required: false,
   },
-  // Will add later the events association if needed
+  event: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Event',
+    required: false,
+  },
   filePath: {
     type: String,
     required: true,
