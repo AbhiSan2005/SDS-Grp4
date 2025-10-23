@@ -11,7 +11,7 @@ const WebsiteNavbar = () => {
     { name: "Members", href: "/members" },
     { name: "Projects", href: "/projects" },
     { name: "Events", href: "/events" },
-    { name: "Contact", href: "/contact" },
+    { name: "Contact", href: "/contact-us" },
   ];
 
   return (
@@ -25,7 +25,7 @@ const WebsiteNavbar = () => {
                 alt="Logo"
                 className="h-10"
               />
-              <span className="text-3xl font-bold text-white" style={{ fontFamily: "Metal Mania, monospace" }}>SDS Portal</span>
+              <span className="text-3xl font-bold text-white" style={{ fontFamily: "Alegreya, monospace" }}>SDS Portal</span>
             </Link>
           </div>
 
