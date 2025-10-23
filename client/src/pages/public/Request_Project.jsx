@@ -12,10 +12,7 @@ const Request_Project = () => {
   const [submitted, setSubmitted] = useState(false);
 
   const handleChange = (e) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value,
-    });
+    setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
   const handleSubmit = (e) => {
@@ -25,83 +22,80 @@ const Request_Project = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-900 text-gray-100">
+    <div className="min-h-screen bg-gray-900 text-gray-100 transition-colors duration-500">
       <UserLayout />
-      <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
-        <h1 className="text-3xl font-bold text-gray-100 mb-8 text-center">
+      <div className="max-w-3xl mx-auto px-6 py-16">
+        <h1
+          className="text-4xl md:text-5xl font-extrabold mb-8 text-center text-white drop-shadow-md"
+          style={{ fontFamily: 'Quantum Lemon Bold, monospace' }}
+        >
           Request a Project
         </h1>
 
         {submitted ? (
-          <div className="bg-green-800 text-green-100 p-4 rounded shadow-lg shadow-green-500/30">
-            Project request submitted successfully!
+          <div className="backdrop-blur-lg bg-white/10 dark:bg-gray-800/30 border border-white/20 dark:border-gray-700/50 rounded-2xl shadow-lg p-12 text-center">
+            <h3
+              className="text-2xl font-semibold text-white mb-3"
+              style={{ fontFamily: 'Delius, monospace' }}
+            >
+              Project request submitted successfully!
+            </h3>
+            <p className="text-gray-400" style={{ fontFamily: 'Delius, monospace' }}>
+              We will review your request and get back to you soon.
+            </p>
           </div>
         ) : (
           <form
             onSubmit={handleSubmit}
-            className="bg-gray-800 shadow-lg shadow-blue-500/30 rounded px-8 pt-6 pb-8 mb-4 border border-gray-700 transition-shadow duration-300 hover:shadow-blue-400/40"
+            className="backdrop-blur-lg bg-white/10 dark:bg-gray-800/30 border border-white/20 dark:border-gray-700/50 rounded-2xl shadow-lg p-8 transition-all duration-300 hover:shadow-blue-500/20"
           >
-            <div className="mb-4">
-              <label className="block text-gray-300 text-sm font-bold mb-2">
-                Name
-              </label>
-              <input
-                type="text"
-                name="name"
-                value={formData.name}
-                onChange={handleChange}
-                className="shadow appearance-none border border-gray-700 bg-gray-700 rounded w-full py-2 px-3 text-gray-100 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500"
-                required
-              />
-            </div>
-
-            <div className="mb-4">
-              <label className="block text-gray-300 text-sm font-bold mb-2">
-                Type of Project
-              </label>
-              <input
-                type="text"
-                name="type"
-                value={formData.type}
-                onChange={handleChange}
-                className="shadow appearance-none border border-gray-700 bg-gray-700 rounded w-full py-2 px-3 text-gray-100 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500"
-                required
-              />
-            </div>
-
-            <div className="mb-4">
-              <label className="block text-gray-300 text-sm font-bold mb-2">
-                Skillset Required
-              </label>
-              <input
-                type="text"
-                name="skillset"
-                value={formData.skillset}
-                onChange={handleChange}
-                className="shadow appearance-none border border-gray-700 bg-gray-700 rounded w-full py-2 px-3 text-gray-100 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500"
-                placeholder="e.g., React, Node.js"
-              />
-            </div>
+            {['name', 'type', 'skillset'].map((field) => (
+              <div className="mb-4" key={field}>
+                <label
+                  className="block text-gray-300 text-sm font-medium mb-2"
+                  style={{ fontFamily: 'Delius, monospace' }}
+                >
+                  {field === 'name'
+                    ? 'Name'
+                    : field === 'type'
+                    ? 'Type of Project'
+                    : 'Skillset Required'}
+                </label>
+                <input
+                  type="text"
+                  name={field}
+                  value={formData[field]}
+                  onChange={handleChange}
+                  className="shadow appearance-none border border-gray-700 bg-gray-800/50 rounded w-full py-2 px-3 text-gray-100 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  placeholder={field === 'skillset' ? 'e.g., React, Node.js' : ''}
+                  required={field !== 'skillset' ? true : false}
+                />
+              </div>
+            ))}
 
             <div className="mb-6">
-              <label className="block text-gray-300 text-sm font-bold mb-2">
+              <label
+                className="block text-gray-300 text-sm font-medium mb-2"
+                style={{ fontFamily: 'Delius, monospace' }}
+              >
                 Description
               </label>
               <textarea
                 name="description"
                 value={formData.description}
                 onChange={handleChange}
-                className="shadow appearance-none border border-gray-700 bg-gray-700 rounded w-full py-2 px-3 text-gray-100 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500"
                 rows="5"
                 placeholder="Describe your project requirements"
                 required
-              ></textarea>
+                className="shadow appearance-none border border-gray-700 bg-gray-800/50 rounded w-full py-2 px-3 text-gray-100 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500"
+              />
             </div>
 
-            <div className="flex items-center justify-between">
+            <div className="flex justify-center">
               <button
                 type="submit"
-                className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="bg-white text-blue-700 px-8 py-3 rounded-full font-semibold shadow-md hover:shadow-xl hover:-translate-y-0.5 transition-all"
+                style={{ fontFamily: 'Delius, monospace' }}
               >
                 Submit Request
               </button>
@@ -114,123 +108,3 @@ const Request_Project = () => {
 };
 
 export default Request_Project;
-// import React, { useState } from 'react';
-// import UserLayout from '../../layouts/UserLayout.jsx';
-
-// const Request_Project = () => {
-//   const [formData, setFormData] = useState({
-//     name: '',
-//     type: '',
-//     skillset: '',
-//     description: '',
-//   });
-
-//   const [submitted, setSubmitted] = useState(false);
-
-//   const handleChange = (e) => {
-//     setFormData({
-//       ...formData,
-//       [e.target.name]: e.target.value,
-//     });
-//   };
-
-//   const handleSubmit = (e) => {
-//     e.preventDefault();
-//     console.log('Form submitted:', formData);
-//     setSubmitted(true);
-//     // I will connect with backend later
-//   };
-
-//   return (
-//     <div>
-//       <UserLayout />
-//       <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
-//         <h1 className="text-3xl font-bold text-gray-800 mb-6">Request a Project</h1>
-
-//         {submitted ? (
-//           <div className="bg-green-100 text-green-700 p-4 rounded">
-//             Project request submitted successfully!
-//           </div>
-//         ) : (
-//           <form
-//             onSubmit={handleSubmit}
-//             className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4"
-//           >
-//             <div className="mb-4">
-//               <label className="block text-gray-700 text-sm font-bold mb-2">
-//                 Name
-//               </label>
-//               <input
-//                 type="text"
-//                 name="name"
-//                 value={formData.name}
-//                 onChange={handleChange}
-//                 className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-//                 required
-//               />
-//             </div>
-
-//             <div className="mb-4">
-//               <label className="block text-gray-700 text-sm font-bold mb-2">
-//                 Type of Project
-//               </label>
-//               <input
-//                 type="text"
-//                 name="type"
-//                 value={formData.type}
-//                 onChange={handleChange}
-//                 className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-//                 required
-//               />
-//             </div>
-
-//             <div className="mb-4">
-//               <label className="block text-gray-700 text-sm font-bold mb-2">
-//                 Skillset Required
-//               </label>
-//               <input
-//                 type="text"
-//                 name="skillset"
-//                 value={formData.skillset}
-//                 onChange={handleChange}
-//                 className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-//                 placeholder="e.g., React, Node.js"
-//               />
-//             </div>
-
-//             <div className="mb-6">
-//               <label className="block text-gray-700 text-sm font-bold mb-2">
-//                 Description
-//               </label>
-//               <textarea
-//                 name="description"
-//                 value={formData.description}
-//                 onChange={handleChange}
-//                 className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-//                 rows="5"
-//                 placeholder="Describe your project requirements"
-//                 required
-//               ></textarea>
-//             </div>
-
-//             <div className="flex items-center justify-between">
-//               <button
-//                 type="submit"
-//                 className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-//               >
-//                 Submit Request
-//               </button>
-//             </div>
-//           </form>
-//         )}
-//       </div>
-//     </div>
-//   );
-// };
-
-// export default Request_Project;
-
-
-
-
-
