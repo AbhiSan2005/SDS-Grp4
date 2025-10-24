@@ -59,7 +59,6 @@ const AdminDashboard = () => {
         { title: 'Upcoming Events', value: stats.upcomingEventsCount, icon: <Calendar />, link: '/admin/events' },
         { title: 'Pending Reports', value: stats.pendingReports, icon: <FileText />, link: '/admin/reports' },
     ];
-
     const quickActions = [
         { label: 'Add New Member', link: '/admin/add-member' },
         { label: 'Add New Project', link: '/admin/add-project' },
