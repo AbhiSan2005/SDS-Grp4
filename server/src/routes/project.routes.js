@@ -13,8 +13,8 @@ import { adminOnly, adminOrFacultyOnly } from "../middleware/role.middleware.js"
 
 const router = express.Router();
 
-router.get("/", protect, adminOrFacultyOnly, getProjects);
-router.get("/:id", protect, adminOrFacultyOnly, getProjectById);
+router.get("/",  getProjects);
+router.get("/:id", getProjectById);
 router.post("/", protect, adminOnly, upload.single("image"), createProject);
 router.put("/:id", protect, adminOnly, upload.single("image"), updateProject);
 router.delete("/:id", protect, adminOnly, deleteProject);
