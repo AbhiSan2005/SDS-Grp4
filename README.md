@@ -88,10 +88,10 @@ Create a `.env` file in the **`backend`** directory:
 PORT=5000 # Or any port you prefer
 
 # Database
-MONGO_URI=your_mongodb_connection_string # e.g., mongodb://localhost:27017/sds_portal or Atlas URI
+MONGO_URI=your_mongodb_connection_string 
 
 # Authentication
-JWT_SECRET=your_super_long_random_jwt_secret_key
+JWT_SECRET=your_jwt_secret_key
 
 # Cloudinary
 CLOUDINARY_CLOUD_NAME=your_cloudinary_cloud_name
