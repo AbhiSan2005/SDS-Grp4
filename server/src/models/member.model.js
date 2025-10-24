@@ -28,7 +28,6 @@ const memberSchema = new mongoose.Schema({
     },
     joinedDate: { type: Date, required: true, default: Date.now },
     expertise: { type: [String] }, 
-    location: { type: String, required: true },
     photo: { type: String }, 
     contactNumber: { type: String },
     

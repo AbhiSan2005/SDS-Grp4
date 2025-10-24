@@ -15,7 +15,6 @@ const AddMemberPage = () => {
     branch: 'Computer Science and Engineering',
     joinedDate: new Date().toISOString().split('T')[0],
     expertise: '',
-    location: '',
     photo: '',
     contactNumber: '',
     socials: {
