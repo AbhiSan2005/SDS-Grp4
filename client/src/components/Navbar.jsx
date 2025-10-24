@@ -6,12 +6,12 @@ const WebsiteNavbar = () => {
   const [isOpen, setIsOpen] = useState(false);
 
   const navLinks = [
-    { name: "Home", href: "/home" },
+    { name: "Home", href: "/" },
     { name: "About", href: "/about" },
     { name: "Members", href: "/members" },
     { name: "Projects", href: "/projects" },
     { name: "Events", href: "/events" },
-    { name: "Contact", href: "/contact" },
+    { name: "Contact", href: "/contact-us" },
   ];
 
   return (
@@ -19,13 +19,13 @@ const WebsiteNavbar = () => {
       <div className="max-w-7xl mx-auto bg-gray-900/60 backdrop-blur-lg border border-white/10 rounded-full shadow-lg">
         <div className="flex items-center justify-between h-14 px-6">
           <div className="flex-shrink-0">
-            <Link to="/home" className="flex items-center gap-3">
+            <Link to="/" className="flex items-center gap-3">
               <img
                 src="https://imgs.search.brave.com/boW8rs8Ol_fUjOHPF6sR90Fcko1-xxpRvTqCfFU-vDs/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly93d3cu/c2RzY29lcC5jbHVi/L3Nkcy5wbmc"
                 alt="Logo"
                 className="h-10"
               />
-              <span className="text-3xl font-bold text-white" style={{ fontFamily: "Metal Mania, monospace" }}>SDS Portal</span>
+              <span className="text-3xl font-bold text-white" style={{ fontFamily: "Alegreya, monospace" }}>SDS Portal</span>
             </Link>
           </div>
 

@@ -19,7 +19,7 @@ const Footer = () => {
               alt="SDS Logo"
               className="h-12"
             />
-            <span className="text-3xl font-bold text-white tracking-wide" style={{ fontFamily: "Metal Mania, monospace" }}>SDS Portal</span>
+            <span className="text-3xl font-bold text-white tracking-wide" style={{ fontFamily: "Alegreya, monospace" }}>SDS Portal</span>
           </a>
           <p className="text-sm mt-2 max-w-xs text-gray-500" style={{ fontFamily: "Delius, monospace" }}>
             Empowering the next generation of innovators through collaborative software development and cutting-edge technology at COEP.
