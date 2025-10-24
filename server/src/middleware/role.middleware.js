@@ -1,41 +1,31 @@
-export const restrictTo = (...roles) => {
-  return (req, res, next) => {
-    // Checked if user exists
-    if (!req.user) {
-      return res.status(401).json({
-        success: false,
-        message: "Not authenticated",
-      });
+// Middleware to restrict access based on user roles
+
+// Allows access if the user is an Admin
+const adminOnly = (req, res, next) => {
+    if (req.user && req.user.role === 'Admin') {
+        next(); 
+    } else {
+        res.status(403).json({ message: 'Forbidden: Admin access required.' });
     }
+};
 
-    // Checked if user role is in allowed roles
-    if (!roles.includes(req.user.role)) {
-      return res.status(403).json({
-        success: false,
-        message: "You do not have permission to perform this action",
-      });
+// Allows access if the user is a Faculty Advisor
+const facultyOnly = (req, res, next) => {
+    if (req.user && req.user.role === 'Faculty Advisor') {
+        next(); 
+    } else {
+        res.status(403).json({ message: 'Forbidden: Faculty Advisor access required.' }); 
     }
-
-    next();
-  };
 };
 
-export const adminOnly = (req, res, next) => {
-  if (!req.user || req.user.role !== "admin") {
-    return res.status(403).json({
-      success: false,
-      message: "Admin access required",
-    });
-  }
-  next();
+// Allows access if the user is EITHER an Admin OR a Faculty Advisor
+const adminOrFacultyOnly = (req, res, next) => {
+    if (req.user && (req.user.role === 'Admin' || req.user.role === 'Faculty Advisor')) {
+        next(); 
+    } else {
+        res.status(403).json({ message: 'Forbidden: Admin or Faculty Advisor access required.' }); 
+    }
 };
 
-export const facultyOnly = (req, res, next) => {
-  if (!req.user || req.user.role !== "faculty") {
-    return res.status(403).json({
-      success: false,
-      message: "Faculty access required",
-    });
-  }
-  next();
-};
+
+export { adminOnly, facultyOnly, adminOrFacultyOnly };

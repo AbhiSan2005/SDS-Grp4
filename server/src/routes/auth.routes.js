@@ -1,12 +1,10 @@
 import express from 'express';
-import { register, login, getMe, logout } from '../controllers/auth.controller.js';
-import { protect } from '../middleware/auth.middleware.js';
+import { loginAdmin } from '../controllers/auth.controller.js';
 
 const router = express.Router();
 
-router.post('/register', register);
-router.post('/login', login);
-router.get('/me', protect, getMe);
-router.post('/logout', protect, logout);
+// POST /api/auth/login
+// Handles login attempts for Admin and Faculty Advisor roles
+router.post('/login', loginAdmin);
 
 export default router;

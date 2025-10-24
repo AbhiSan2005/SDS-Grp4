@@ -1,5 +1,9 @@
 import React from 'react'
 import { BrowserRouter, Routes ,Route} from 'react-router-dom'
+
+import ProtectedRouteAdmin from './components/ProtectedRouteAdmin.jsx'
+import ProtectedRouteFaculty from './components/ProtectedRouteFaculty.jsx'
+
 import AdminDashboard from './pages/admin/Dashboard.jsx'
 import Members_Admin from './pages/admin/members/ManageMembers.jsx'
 
@@ -39,7 +43,8 @@ const App = () => {
         <Route path="/login" element = {<Login/>} />
 
 
-
+        <Route element={<ProtectedRouteAdmin />}>
+        
         <Route path="/admin" element={<AdminDashboard />} />
 
         <Route path="/admin/members" element={<Members_Admin />} />
@@ -56,11 +61,13 @@ const App = () => {
         <Route path="/admin/edit-event/:id" element={<EditEventPage />} />
         <Route path="/admin/view-event/:id" element={<EventViewPage />} />
 
-
         <Route path="/admin/reports" element={<Reports_Admin />} />
+        </Route>
 
-        <Route path="/faculty" element = {<FacultyDashboard/>} />
-        <Route path="/faculty/reports" element = {<Reports_Faculty/>} />
+        <Route element={<ProtectedRouteFaculty />}>
+          <Route path="/faculty" element={<FacultyDashboard />} />
+          <Route path="/faculty/reports" element={<Reports_Faculty />} />
+        </Route>
 
       </Routes>
     </BrowserRouter>
