@@ -1,47 +1,40 @@
 import mongoose from "mongoose";
 
-const eventSchema = new mongoose.Schema(
-  {
-    title: {
-      type: String,
-      required: true,
-      trim: true
-    },
-    description: {
-      type: String,
-      required: true
-    },
-    agenda: {
-      type: String
-    },
-    startDate: {
-      type: Date,
-      required: true
-    },
-    endDate: {
-      type: Date,
-      required: true
-    },
-    location: {
-      type: String,
-      required: true
-    },
-    organizer: {
-      type: String,
-      required: true
-    },
-    status: {
-      type: String,
-      required: true,
-      enum: ["Upcoming", "Ongoing", "Completed", "Cancelled"],
-      default: "Upcoming",
-    },
-    imageUrl: { type: String }, // For the main event banner
-    gallery: { type: [String] }, // For multiple gallery images
+const eventSchema = new mongoose.Schema({
+  title: {
+    type: String,
+    required: [true, 'Event title is required.'],
+    trim: true
   },
-  { timestamps: true }
-);
+  description: {
+    type: String,
+    trim: true
+  },
+  agenda: String,
+  startDate: {
+    type: Date,
+    required: [true, 'Start date is required.']
+  },
+  endDate: {
+    type: Date,
+    required: [true, 'End date is required.'],
+  },
+  location: String,
+  organizer: String,
+  status: {
+    type: String,
+    enum: {
+      values: ['Upcoming', 'Ongoing', 'Past', 'Cancelled'],
+      message: '{VALUE} is not a supported status.'
+    },
+    default: 'Upcoming'
+  },
+  imageUrl: String,
+  gallery: [String],
+}, {
+  timestamps: true
+});
 
-const Event = mongoose.model("Event", eventSchema);
+const Event = mongoose.model('Event', eventSchema);
 
 export default Event;

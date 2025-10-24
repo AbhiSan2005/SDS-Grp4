@@ -1,3 +1,4 @@
+// ... (imports remain the same)
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import UserLayout from '../../layouts/UserLayout.jsx';
@@ -97,7 +98,7 @@ const Members = () => {
             </div>
           </div>
         ) : (
-          <section className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 relative z-10">
+          <section className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8 relative z-10">
             {members.map((m) => (
               <MemberCard key={m._id || m.id} member={m} />
             ))}

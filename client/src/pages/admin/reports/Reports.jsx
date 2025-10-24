@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useMemo } from "react";
 import AdminLayout from "../../../layouts/AdminLayout.jsx";
 import axios from "axios";
-import { Upload, Search, Trash2, Download, View } from "lucide-react";
+import { Upload, Search, Trash2, Download, View, CheckCircle } from "lucide-react";
 import ReportFormModal from "./ReportFormModal.jsx"; 
 
 const ReportsManagementDashboard = () => {
@@ -38,6 +38,24 @@ const ReportsManagementDashboard = () => {
     };
     fetchData();
   }, []);
+  const handleApproveReport = async (reportId) => {
+        try {
+            const response = await axios.patch(
+                `${import.meta.env.VITE_API_URL}/api/reports/${reportId}/status`,
+                { status: 'Approved' } 
+            );
+
+            setReports(prevReports =>
+                prevReports.map(report =>
+                    report._id === reportId ? response.data : report
+                )
+            );
+            alert('Report approved successfully!');
+        } catch (err) {
+            console.error("Failed to approve report:", err);
+            alert('Failed to approve report. Please try again.');
+        }
+    };
 
   const filteredReports = useMemo(() => {
     if (!reports) return [];
@@ -229,6 +247,7 @@ const ReportsManagementDashboard = () => {
                           download
                           title="Download Report"
                           className="text-gray-500 hover:text-black"
+                          target="_blank"
                         >
                           <Download size={18} />
                         </a>

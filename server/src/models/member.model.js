@@ -15,6 +15,10 @@ const memberSchema = new mongoose.Schema({
         required: true,
         enum: ['Faculty Advisor','Admin', 'Core Member', 'Member'] 
     },
+    password: {
+        type: String,
+        select: false // Prevents password hash from being sent in default queries
+    },
     portfolio: {
         type: String,
         required: true,
@@ -28,8 +32,7 @@ const memberSchema = new mongoose.Schema({
     },
     joinedDate: { type: Date, required: true, default: Date.now },
     expertise: { type: [String] }, 
-    location: { type: String, required: true },
-    photo: { type: String }, 
+    photo: { type: String , trim: true}, 
     contactNumber: { type: String },
     
     socials: {
