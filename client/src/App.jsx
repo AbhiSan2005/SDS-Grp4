@@ -10,7 +10,6 @@ import EditProject from './pages/admin/projects/EditProject.jsx'
 
 import Events_Admin from './pages/admin/events/ManageEvents.jsx'
 import Reports_Admin from './pages/admin/reports/Reports.jsx'
-import Files_Admin from './pages/admin/files/FileManager.jsx'
 import HomePage from './pages/public/Home.jsx'
 import About_Us from './pages/public/AboutUs.jsx'
 import ContactUs from './pages/public/Contact_Us.jsx'
@@ -59,7 +58,6 @@ const App = () => {
 
 
         <Route path="/admin/reports" element={<Reports_Admin />} />
-        <Route path="/admin/files" element={<Files_Admin />} />
 
         <Route path="/faculty" element = {<FacultyDashboard/>} />
         <Route path="/faculty/reports" element = {<Reports_Faculty/>} />

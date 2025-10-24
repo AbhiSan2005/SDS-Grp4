@@ -17,7 +17,6 @@ const Sidebar = ({ isCollapsed, setIsCollapsed, activePage }) => {
     { name: 'Projects Management', icon: <FolderKanban size={20} />, href: '/admin/projects' },
     { name: 'Events Management', icon: <CalendarDays size={20} />, href: '/admin/events' },
     { name: 'Reports Section', icon: <FileText size={20} />, href: '/admin/reports' },
-    { name: 'File Manager', icon: <Folder size={20} />, href: '/admin/files' },
   ];
 
   return (
