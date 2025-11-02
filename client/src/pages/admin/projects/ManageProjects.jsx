@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useMemo } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import AdminLayout from "../../../layouts/AdminLayout.jsx";
-import axios from 'axios';
+import api from "../../../api/axios.js";
 import { FilePenLine, Trash2, Plus, View, Sparkles, Search, Filter, User, Tag, ChevronDown } from "lucide-react";
 
 const ProjectManagementDashboard = () => {
@@ -24,8 +24,8 @@ const ProjectManagementDashboard = () => {
             setLoading(true);
             try {
                 const [projectsRes, membersRes] = await Promise.all([
-                    axios.get(`${import.meta.env.VITE_API_URL}/api/projects`),
-                    axios.get(`${import.meta.env.VITE_API_URL}/api/members`)
+                    api.get(`/api/projects`),
+                    api.get(`/api/members`)
                 ]);
                 setProjects(projectsRes.data);
                 setAllMembers(membersRes.data);
@@ -56,7 +56,7 @@ const ProjectManagementDashboard = () => {
     const handleGenerateReport = async (projectId) => {
         setGeneratingId(projectId);
         try {
-            await axios.post(`${import.meta.env.VITE_API_URL}/api/reports/generate/project/${projectId}`, {});
+            await api.post(`/api/reports/generate/project/${projectId}`, {});
             alert('Report generated successfully! Redirecting to reports...');
             navigate('/admin/reports');
         } catch (error) {
@@ -71,7 +71,7 @@ const ProjectManagementDashboard = () => {
     const handleConfirmDelete = async () => {
          if (projectToDelete) {
             try {
-                await axios.delete(`${import.meta.env.VITE_API_URL}/api/projects/${projectToDelete._id}`);
+                await api.delete(`/api/projects/${projectToDelete._id}`);
                 setProjects(projects.filter((project) => project._id !== projectToDelete._id));
             } catch (err) {
                 alert("Error: Could not delete the project.");

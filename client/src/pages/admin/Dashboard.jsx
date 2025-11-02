@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import AdminLayout from '../../layouts/AdminLayout.jsx';
 import { Link } from 'react-router-dom';
-import axios from 'axios';
+import api from '../../api/axios.js';
 import { Users, FolderKanban, Calendar, FileText, PlusCircle, AlertTriangle, MapPin } from 'lucide-react';
 
 const AdminDashboard = () => {
@@ -21,10 +21,10 @@ const AdminDashboard = () => {
             setError(null);
             try {
                 const [membersRes, projectsRes, eventsRes, reportsRes] = await Promise.all([
-                    axios.get(`${import.meta.env.VITE_API_URL}/api/members`),
-                    axios.get(`${import.meta.env.VITE_API_URL}/api/projects`),
-                    axios.get(`${import.meta.env.VITE_API_URL}/api/events?sort=startDate`),
-                    axios.get(`${import.meta.env.VITE_API_URL}/api/reports`),
+                    api.get(`/api/members`),
+                    api.get(`/api/projects`),
+                    api.get(`/api/events?sort=startDate`),
+                    api.get(`/api/reports`),
                 ]);
 
                 const upcoming = eventsRes.data

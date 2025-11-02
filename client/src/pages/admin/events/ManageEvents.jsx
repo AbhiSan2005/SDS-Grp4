@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import AdminLayout from "../../../layouts/AdminLayout.jsx";
-import axios from 'axios';
+import api from "../../../api/axios.js";
 import { FilePenLine, Trash2, Plus, View, Sparkles, Calendar } from "lucide-react"; 
 
 const EventManagementDashboard = () => {
@@ -16,7 +16,7 @@ const EventManagementDashboard = () => {
     useEffect(() => {
         const fetchEvents = async () => {
             try {
-                const response = await axios.get(`${import.meta.env.VITE_API_URL}/api/events`);
+                const response = await api.get(`/api/events`);
                 setEvents(response.data);
             } catch (err) {
                 setError("Error: Could not fetch events.");
@@ -32,7 +32,7 @@ const EventManagementDashboard = () => {
         setGeneratingId(eventId);
         console.log("Generating report for event ID:", eventId); 
         try {
-            await axios.post(`${import.meta.env.VITE_API_URL}/api/reports/generate/event/${eventId}`, {});
+            await api.post(`/api/reports/generate/event/${eventId}`, {});
             alert("Report generated successfully!");
             navigate('/admin/reports');
         } catch (error) {
@@ -56,7 +56,7 @@ const EventManagementDashboard = () => {
     const handleConfirmDelete = async () => {
         if (eventToDelete) {
             try {
-                await axios.delete(`${import.meta.env.VITE_API_URL}/api/events/${eventToDelete._id}`);
+                await api.delete(`/api/events/${eventToDelete._id}`);
                 setEvents(events.filter((event) => event._id !== eventToDelete._id));
             } catch (err) {
                 alert("Error: Could not delete the event.");

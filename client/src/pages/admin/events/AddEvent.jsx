@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import AdminLayout from "../../../layouts/AdminLayout.jsx";
-import axios from "axios";
+import api from "../../../api/axios.js";
 import { Camera } from "lucide-react";
 
 const AddEventPage = () => {
@@ -75,8 +75,8 @@ const AddEventPage = () => {
     });
 
     try {
-      await axios.post(
-        `${import.meta.env.VITE_API_URL}/api/events`,
+      await api.post(
+        `/api/events`,
         finalFormData,
         {
           headers: {

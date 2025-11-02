@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useMemo, useRef } from "react";
 import { Link } from "react-router-dom";
 import AdminLayout from "../../../layouts/AdminLayout.jsx";
-import axios from "axios";
+import api from "../../../api/axios.js";
 import {
   UserPlus,
   FilePenLine,
@@ -54,8 +54,8 @@ const MemberManagementDashboard = () => {
   useEffect(() => {
     const fetchMembers = async () => {
       try {
-        const response = await axios.get(
-          `${import.meta.env.VITE_API_URL}/api/members`
+        const response = await api.get(
+          `/api/members`
         );
         
         setMembers(response.data);
@@ -126,8 +126,8 @@ const MemberManagementDashboard = () => {
   };
   const handleConfirmDelete = async () => { 
     if (memberToDelete) {
-      const promise = axios.delete(
-        `${import.meta.env.VITE_API_URL}/api/members/${memberToDelete._id}`
+      const promise = api.delete(
+        `/api/members/${memberToDelete._id}`
       );
 
       toast.promise(promise, {

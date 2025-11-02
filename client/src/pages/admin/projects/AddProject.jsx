@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
 import AdminLayout from "../../../layouts/AdminLayout.jsx";
-import axios from "axios";
+import api from "../../../api/axios.js";
 import { X, Camera } from "lucide-react";
 
 const AddProjectPage = () => {
@@ -30,8 +30,8 @@ const AddProjectPage = () => {
   useEffect(() => {
     const fetchAllMembers = async () => {
       try {
-        const response = await axios.get(
-          `${import.meta.env.VITE_API_URL}/api/members`
+        const response = await api.get(
+          `/api/members`
         );
         setAllMembers(response.data);
       } catch (error) {
@@ -113,8 +113,8 @@ const AddProjectPage = () => {
 
     try {
       console.log("Submitting form data:", finalFormData);
-      await axios.post(
-        `${import.meta.env.VITE_API_URL}/api/projects`,
+      await api.post(
+        `/api/projects`,
         finalFormData
       );
       alert("Project added successfully!");

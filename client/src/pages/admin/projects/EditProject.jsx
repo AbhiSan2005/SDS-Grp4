@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useMemo } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import AdminLayout from "../../../layouts/AdminLayout.jsx";
-import axios from "axios";
+import api from "../../../api/axios.js";
 import { X, Camera } from "lucide-react"; 
 
 const EditProjectPage = () => {
@@ -19,13 +19,13 @@ const EditProjectPage = () => {
 useEffect(() => {
     const fetchData = async () => {
       try {
-        const projectRes = await axios.get(
-          `${import.meta.env.VITE_API_URL}/api/projects/${id}`
+        const projectRes = await api.get(
+          `/api/projects/${id}`
         );
         const projectData = projectRes.data;
 
-        const membersRes = await axios.get(
-          `${import.meta.env.VITE_API_URL}/api/members`
+        const membersRes = await api.get(
+          `/api/members`
         );
         setAllMembers(membersRes.data);
 
@@ -105,8 +105,8 @@ formData.members.forEach(memberId => {
     finalFormData.set('technologies', formData.technologies.split(",").map(item => item.trim()).filter(Boolean));
 
     try {
-      await axios.put(
-        `${import.meta.env.VITE_API_URL}/api/projects/${id}`,
+      await api.put(
+        `/api/projects/${id}`,
         finalFormData // Send as FormData
       );
       alert("Project updated successfully!");

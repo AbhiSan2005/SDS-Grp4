@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
 import AdminLayout from "../../../layouts/AdminLayout.jsx";
-import axios from "axios";
+import api from "../../../api/axios.js";
 import {
   Calendar,
   Users,
@@ -20,8 +20,8 @@ const ProjectViewPage = () => {
   useEffect(() => {
     const fetchProject = async () => {
       try {
-        const response = await axios.get(
-          `${import.meta.env.VITE_API_URL}/api/projects/${id}`
+        const response = await api.get(
+          `/api/projects/${id}`
         );
         setProject(response.data);
       } catch (err) {

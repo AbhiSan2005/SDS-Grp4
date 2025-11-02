@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import AdminLayout from '../../../layouts/AdminLayout.jsx';
-import axios from 'axios';
+import api from '../../../api/axios.js';
 import { Camera } from 'lucide-react';
 
 const EditMemberPage = () => {
@@ -17,7 +17,7 @@ const EditMemberPage = () => {
     useEffect(() => {
         const fetchMemberData = async () => {
             try {
-                const response = await axios.get(`${import.meta.env.VITE_API_URL}/api/members/${id}`);
+                const response = await api.get(`/api/members/${id}`);
                 const memberData = response.data;
 
                 setFormData({
@@ -87,8 +87,8 @@ const EditMemberPage = () => {
         }
 
         try {
-            await axios.put(
-                `${import.meta.env.VITE_API_URL}/api/members/${id}`,
+            await api.put(
+                `/api/members/${id}`,
                 finalFormData,
                 { headers: { 'Content-Type': 'multipart/form-data' } }
             );

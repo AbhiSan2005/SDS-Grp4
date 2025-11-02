@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import AdminLayout from '../../../layouts/AdminLayout.jsx';
-import axios from 'axios';
+import api from '../../../api/axios.js';
 import { Camera } from 'lucide-react';
 
 const AddMemberPage = () => {
@@ -89,9 +89,9 @@ const handleSubmit = async (e) => {
     }
 
     try {
-        await axios.post(
-            `${import.meta.env.VITE_API_URL}/api/members`,
-            finalFormData 
+        await api.post(
+            `/api/members`,
+            finalFormData
         );
         alert('Member added successfully!');
         navigate('/admin/members');

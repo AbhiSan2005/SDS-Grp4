@@ -3,7 +3,6 @@ import Member from '../models/member.model.js';
 
 const protect = async (req, res, next) => {
     let token;
-
     // 1. Check if the Authorization header exists and starts with 'Bearer'
     if (req.headers.authorization && req.headers.authorization.startsWith('Bearer')) {
         try {

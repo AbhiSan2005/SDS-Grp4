@@ -24,7 +24,7 @@ const AdminLoginPage = () => {
                 `${import.meta.env.VITE_API_URL}/api/auth/login`,
                 { email, password }
             );
-
+            console.log("Login response:", response.data);
             if (response.data && response.data.token && response.data.user) {
                 // Store token and user info
                 localStorage.setItem('adminToken', response.data.token);

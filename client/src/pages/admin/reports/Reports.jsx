@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useMemo } from "react";
 import AdminLayout from "../../../layouts/AdminLayout.jsx";
-import axios from "axios";
+import api from "../../../api/axios.js";
 import { Upload, Search, Trash2, Download, View, CheckCircle } from "lucide-react";
 import ReportFormModal from "./ReportFormModal.jsx"; 
 
@@ -22,9 +22,9 @@ const ReportsManagementDashboard = () => {
     const fetchData = async () => {
       try {
         const [reportsRes, projectsRes, eventsRes] = await Promise.all([
-          axios.get(`${import.meta.env.VITE_API_URL}/api/reports`),
-          axios.get(`${import.meta.env.VITE_API_URL}/api/projects`),
-          axios.get(`${import.meta.env.VITE_API_URL}/api/events`), 
+          api.get(`/api/reports`),
+          api.get(`/api/projects`),
+          api.get(`/api/events`), 
         ]);
         setReports(reportsRes.data);
         setProjects(projectsRes.data);
@@ -40,8 +40,8 @@ const ReportsManagementDashboard = () => {
   }, []);
   const handleApproveReport = async (reportId) => {
         try {
-            const response = await axios.patch(
-                `${import.meta.env.VITE_API_URL}/api/reports/${reportId}/status`,
+            const response = await api.patch(
+                `/api/reports/${reportId}/status`,
                 { status: 'Approved' } 
             );
 
@@ -80,8 +80,8 @@ const ReportsManagementDashboard = () => {
   const handleConfirmDelete = async () => {
     if (reportToDelete) {
       try {
-        await axios.delete(
-          `${import.meta.env.VITE_API_URL}/api/reports/${reportToDelete._id}`
+        await api.delete(
+          `/api/reports/${reportToDelete._id}`
         );
 
         setReports(reports.filter((r) => r._id !== reportToDelete._id));
@@ -99,13 +99,13 @@ const ReportsManagementDashboard = () => {
     try {
       setLoading(true);
 
-      await axios.post(
-        `${import.meta.env.VITE_API_URL}/api/reports/upload`,
+      await api.post(
+        `/api/reports/upload`,
         formData
       );
 
-      const response = await axios.get(
-        `${import.meta.env.VITE_API_URL}/api/reports`
+      const response = await api.get(
+        `/api/reports`
       );
 
       setReports(response.data);

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import AdminLayout from '../../../layouts/AdminLayout.jsx'; 
-import axios from 'axios';
+import api from '../../../api/axios.js';
 import { Calendar, MapPin, User, Image as ImageIcon, Info } from 'lucide-react'; 
 
 const EventViewPage = () => {
@@ -13,7 +13,7 @@ const EventViewPage = () => {
     useEffect(() => {
         const fetchEvent = async () => {
             try {
-                const response = await axios.get(`${import.meta.env.VITE_API_URL}/api/events/${id}`);
+                const response = await api.get(`/api/events/${id}`);
                 setEvent(response.data);
             } catch (err) {
                 console.error("Failed to fetch event:", err);
